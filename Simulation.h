@@ -40,13 +40,10 @@ class Simulation {
     GlobalBoundaryFactory _globalBoundaryFactory;
     GlobalBoundaryIterator<FlowField> _wallVelocityIterator;
     GlobalBoundaryIterator<FlowField> _wallFGHIterator;
-
     FGHStencil _fghStencil;
     FieldIterator<FlowField> _fghIterator;
-
     RHSStencil _rhsStencil;
     FieldIterator<FlowField> _rhsIterator;
-
     VelocityStencil _velocityStencil;
     ObstacleStencil _obstacleStencil;
     FieldIterator<FlowField> _velocityIterator;
@@ -73,6 +70,7 @@ class Simulation {
        _obstacleStencil(parameters),
        _velocityIterator(_flowField,parameters,_velocityStencil),
        _obstacleIterator(_flowField,parameters,_obstacleStencil),
+
        _solver(_flowField,parameters)
        {
        }
@@ -132,7 +130,7 @@ class Simulation {
         // compute velocity
         _velocityIterator.iterate();
 	// set obstacle boundaries
-	_obstacleIterator.iterate();
+	      _obstacleIterator.iterate();
         // TODO WS2: communicate velocity values
         // Iterate for velocities on the boundary
         _wallVelocityIterator.iterate();
@@ -140,8 +138,10 @@ class Simulation {
 
     /** TODO WS1: plots the flow field. */
     virtual void plotVTK(int timeStep){
-      // TODO WS1: create VTKStencil and respective iterator; iterate stencil
-      //           over _flowField and write flow field information to vtk file
+      VTKStencil _vtkStencil(_parameters);
+      FieldIterator<FlowField> _vtkIterator(_flowField,_parameters,_vtkStencil);        
+      _vtkIterator.iterate();
+      _vtkStencil.write(_flowField,timeStep);
     }
 
   protected:

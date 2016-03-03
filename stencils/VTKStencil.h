@@ -6,6 +6,7 @@
 #include "../Stencil.h"
 #include "../FlowField.h"
 #include <string>
+#include <iostream>
 #include <fstream>
 #include <sstream>
 
@@ -14,7 +15,12 @@
  * When iterated with, creates a VTK file.
  */
 class VTKStencil : public FieldStencil<FlowField> {
-
+    private:
+        std::stringstream pointData,cellData,cellType,pressureValue,velocityValue;
+        Meshsize* _meshsize;
+        int _dim;
+        int cellRefNum;
+        std::string _prefix;
     public:
 
         /** Constructor
@@ -24,7 +30,7 @@ class VTKStencil : public FieldStencil<FlowField> {
         VTKStencil ( const Parameters & parameters );
 
         /** 2D operation for one position
-         *
+facfa         *
          * @param flowField State of the flow field
          * @param i Position in the x direction
          * @param j Position in the y direction

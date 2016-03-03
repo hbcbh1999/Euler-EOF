@@ -64,13 +64,20 @@ int main (int argc, char *argv[]) {
     FLOAT time = 0.0;
     FLOAT timeStdOut=parameters.stdOut.interval;
     int timeSteps = 0;
+    int OutputTimes = 1;
 
     // TODO WS1: plot initial state
-
+    simulation->plotVTK(timeSteps);
     // time loop
     while (time < parameters.simulation.finalTime){
 
       simulation->solveTimestep();
+      // TODO WS1: trigger VTK output
+      if (time > parameters.vtk.interval*OutputTimes)
+      {
+        simulation->plotVTK(timeSteps);
+        OutputTimes++;
+      }
 
       time += parameters.timestep.dt;
 
@@ -85,6 +92,7 @@ int main (int argc, char *argv[]) {
     }
 
     // TODO WS1: plot final output
+    simulation->plotVTK(timeSteps);
 
     delete simulation; simulation=NULL;
     delete flowField;  flowField= NULL;
