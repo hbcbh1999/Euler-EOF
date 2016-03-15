@@ -48,7 +48,13 @@ int main (int argc, char *argv[]) {
     if (parameters.simulation.type=="turbulence"){
       // TODO WS2: initialise turbulent flow field and turbulent simulation object
       handleError(1,"Turbulence currently not supported yet!");
-    } else if (parameters.simulation.type=="dns"){
+    } else if (parameters.simulation.type=="inviscid"){
+      InviscidFlowField *inviscidFlowField = NULL;
+      inviscidFlowField = new InviscidFlowField(parameters);
+        flowField = inviscidFlowField;
+        if(flowField == NULL){ handleError(1, "flowField==NULL!"); }
+        simulation = new InvicidSimulation(parameters,*inviscidFlowField);
+    }else if (parameters.simulation.type=="dns"){
       if(rank==0){ std::cout << "Start DNS simulation in " << parameters.geometry.dim << "D" << std::endl; }
       flowField = new FlowField(parameters);
       if(flowField == NULL){ handleError(1, "flowField==NULL!"); }

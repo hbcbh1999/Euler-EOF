@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
-    <flow Re="5000" />
+    <flow Re="500" />
     <simulation finalTime="10" >
         <type>dns</type>
         <scenario>cavity</scenario>
@@ -8,7 +8,7 @@
     <timestep dt="1" tau="0.5" />
     <solver gamma="0.5" />
     <geometry dim="2"
-      lengthX="1.0" lengthY="1.0" lengthZ="1.0" sizeX="10" sizeY="10" sizeZ="2"
+      lengthX="1.0" lengthY="1.0" lengthZ="1.0" sizeX="3" sizeY="3" sizeZ="2"
     >
       <mesh>uniform</mesh>
     </geometry>
