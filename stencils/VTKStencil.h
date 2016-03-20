@@ -16,6 +16,7 @@
  */
 class VTKStencil : public FieldStencil<FlowField> {
     private:
+        // bool _inviscid;
         std::stringstream pointData,cellData,cellType,pressureValue,velocityValue;
         Meshsize* _meshsize;
         int _dim;

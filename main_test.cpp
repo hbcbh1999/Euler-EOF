@@ -29,28 +29,23 @@ int main (int argc, char *argv[]) {
     MeshsizeFactory::getInstance().initMeshsize(parameters);
     FlowField *flowField = NULL;
     Simulation *simulation = NULL;
-    
-    #ifdef DEBUG
-    std::cout << "Processor " << parameters.parallel.rank << " with index ";
-    std::cout << parameters.parallel.indices[0] << ",";
-    std::cout << parameters.parallel.indices[1] << ",";
-    std::cout << parameters.parallel.indices[2];
-    std::cout <<    " is computing the size of its subdomain and obtains ";
-    std::cout << parameters.parallel.localSize[0] << ", ";
-    std::cout << parameters.parallel.localSize[1] << " and ";
-    std::cout << parameters.parallel.localSize[2];
-    std::cout << ". Left neighbour: " << parameters.parallel.leftNb;
-    std::cout << ", right neighbour: " << parameters.parallel.rightNb;
-    std::cout << std::endl;
-    std::cout << "Min. meshsizes: " << parameters.meshsize->getDxMin() << ", " << parameters.meshsize->getDyMin() << ", " << parameters.meshsize->getDzMin() << std::endl;
-    #endif
 
     // initialise simulation
-    if (parameters.simulation.type=="turbulence"){
+    if (parameters.simulation.type=="turbulence")
+    {
       // TODO WS2: initialise turbulent flow field and turbulent simulation object
       handleError(1,"Turbulence currently not supported yet!");
-    } else if (parameters.simulation.type=="inviscid"){
-    
+    } 
+    else if (parameters.simulation.type=="inviscid")
+    {
+      // InviscidFlowField *inviscidFlowField = NULL;
+      // inviscidFlowField = new InviscidFlowField(parameters);
+      // flowField = inviscidFlowField;
+      // if(flowField == NULL)
+      // {
+      //   handleError(1, "flowField==NULL!"); 
+      // }
+
        InviscidFlowField *inviscidFlowField = NULL;
         inviscidFlowField = new InviscidFlowField(parameters);
         flowField = inviscidFlowField;
@@ -59,55 +54,45 @@ int main (int argc, char *argv[]) {
           handleError(1, "flowField==NULL!"); 
         }
         simulation = new InviscidSimulation(parameters,*inviscidFlowField);
-
-    }else if (parameters.simulation.type=="dns"){
-      if(rank==0){ std::cout << "Start DNS simulation in " << parameters.geometry.dim << "D" << std::endl; }
+    }
+    else if (parameters.simulation.type=="dns")
+    {
+      if(rank==0)
+      { 
+        std::cout << "Start DNS simulation in " << parameters.geometry.dim << "D" << std::endl; 
+      }
       flowField = new FlowField(parameters);
-      if(flowField == NULL){ handleError(1, "flowField==NULL!"); }
+      if(flowField == NULL)
+        { 
+          handleError(1, "flowField==NULL!"); 
+        }
       simulation = new Simulation(parameters,*flowField);
-    } else {
+    } 
+    else 
+    {
       handleError(1, "Unknown simulation type! Currently supported: dns, turbulence");
     }
     // call initialization of simulation (initialize flow field)
-    if(simulation == NULL){ handleError(1, "simulation==NULL!"); }
+    if(simulation == NULL)
+    { 
+      handleError(1, "simulation==NULL!"); 
+    }
     simulation->initializeFlowField();
+
     //flowField->getFlags().show();
-
-    FLOAT time = 0.0;
-    FLOAT timeStdOut=parameters.stdOut.interval;
+    // FLOAT time = 0.0;
+    // FLOAT timeStdOut=parameters.stdOut.interval;
     int timeSteps = 0;
-    int OutputTimes = 1;
-
+    // int OutputTimes = 1;
     // TODO WS1: plot initial state
+    ((InviscidSimulation*)simulation)->computeTransformMetrics();
     simulation->plotVTK(timeSteps);
     // time loop
-    while (time < parameters.simulation.finalTime){
 
-      simulation->solveTimestep();
-      // TODO WS1: trigger VTK output
-      if (time > parameters.vtk.interval*OutputTimes)
-      {
-        simulation->plotVTK(timeSteps);
-        OutputTimes++;
-      }
-
-      time += parameters.timestep.dt;
-
-      // std-out: terminal info
-      if ( (rank==0) && (timeStdOut <= time) ){
-          std::cout << "Current time: " << time << "\ttimestep: " <<
-                        parameters.timestep.dt << std::endl;
-          timeStdOut += parameters.stdOut.interval;
-      }
-      // TODO WS1: trigger VTK output
-      timeSteps++;
-    }
-
-    // TODO WS1: plot final output
-    simulation->plotVTK(timeSteps);
 
     delete simulation; simulation=NULL;
     delete flowField;  flowField= NULL;
 
     PetscFinalize();
+
 }

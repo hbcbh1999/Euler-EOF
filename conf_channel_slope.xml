@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
-    <flow Mach="1" />
-    <!-- <Transform ApplyTransform="false" /> -->
+    <flow Re="1000" />
+    <!-- TODO: MACH -->
     <simulation finalTime="10.0" >
-        <type>invicid</type>
+        <type>inviscid</type>
         <scenario>channel</scenario>
     </simulation>
     <backwardFacingStep xRatio="0" yRatio="0" />
     <timestep dt="1" tau="0.5" />
     <solver gamma="0.5" />
     <geometry
-      dim="3"
-      lengthX="5.0" lengthY="1.0" lengthZ="1.0"
-      sizeX="10" sizeY="20" sizeZ="10"
+      dim="2"
+      lengthX="240" lengthY="150" lengthZ="1.0"
+      sizeX="240" sizeY="150" sizeZ="1"
       stretchX="false" stretchY="false" stretchZ="false"
     >
       <mesh>uniform</mesh>

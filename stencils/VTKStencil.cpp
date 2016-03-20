@@ -1,7 +1,9 @@
 #include "VTKStencil.h"
+// #include "../EulerSolver/InviscidFlowField.h"
 
 VTKStencil::VTKStencil(const Parameters & parameters) :
 		FieldStencil<FlowField>(parameters) {
+			// _inviscid = (parameters.simulation.type=="inviscid");
 			_meshsize = parameters.meshsize;
 			cellRefNum = 0;
 			_dim = parameters.geometry.dim;
@@ -10,6 +12,7 @@ VTKStencil::VTKStencil(const Parameters & parameters) :
 
 void VTKStencil::apply ( FlowField & flowField, int i, int j )
 {
+	// Mute the output on ghost layer
 	if (i==1 || j == 1)
 	{
 
@@ -42,19 +45,29 @@ void VTKStencil::apply ( FlowField & flowField, int i, int j )
 	int obstacle = flowField.getFlags().getValue( i, j );
 	// 1 for the obstacle, 0 for the flowfield.
 	if( (obstacle & OBSTACLE_SELF ) == 1 )
-			{
+	{
 		velocityValue << (FLOAT) 0.0 << " " << (FLOAT) 0.0 << " " << 0 << "\n";
 		pressureValue << (FLOAT) 0.0 << "\n";
 	}
 	else
-		{		
+	{		
 		flowField.getPressureAndVelocity( flowField.getPressure().getScalar(i, j), velocity, i, j);
 		velocityValue << velocity[0] << " " << velocity[1] << " " << 0 << "\n" ;
-		pressureValue << flowField.getPressure().getScalar(i,j) << "\n";       		
+		pressureValue << flowField.getPressure().getScalar(i,j) << "\n";
+
+   		// if (_inviscid)
+    	// {
+    	// 	InviscidFlowField inviscidFlowField;
+    	// 	JValue << inviscidFlowField.getJ().getScalar(i,j) << "\n";
+    	// }       		
 	}
+
+
 
 	}
 }
+
+
 
 void VTKStencil::apply ( FlowField & flowField, int i, int j, int k)
 {
@@ -170,12 +183,16 @@ void VTKStencil::write ( FlowField & flowField, int timeStep )
 		vtkFile << "CELL_TYPES " << (flowField.getNx()) * (flowField.getNy()) << "\n";
 		vtkFile << cellType.str()<< "\n";
 
-	// Write velocity
 		vtkFile << "CELL_DATA " << (flowField.getNx()) * (flowField.getNy()) << "\n";
 
 	// Write pressure in cell data;
     	vtkFile << "SCALARS Cell_Pressure FLOAT" << "\n" << "LOOKUP_TABLE default"<< "\n";
-		vtkFile << pressureValue.str() << "\n";  //test
+		vtkFile << pressureValue.str() << "\n"; 
+
+// // J Output
+// 		vtkFile << "SCALARS J FLOAT" << "\n" << "LOOKUP_TABLE default"<< "\n";
+// 		vtkFile << JValue.str() << "\n";  //test
+
 
 		vtkFile << "VECTORS velocity FLOAT \n";
 		vtkFile << velocityValue.str() << "\n";

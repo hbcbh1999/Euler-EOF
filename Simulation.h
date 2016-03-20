@@ -48,6 +48,8 @@ class Simulation {
     ObstacleStencil _obstacleStencil;
     FieldIterator<FlowField> _velocityIterator;
     FieldIterator<FlowField> _obstacleIterator;
+    VTKStencil _vtkStencil;
+    FieldIterator<FlowField> _vtkIterator; 
 
     PetscSolver _solver;
 
@@ -70,7 +72,8 @@ class Simulation {
        _obstacleStencil(parameters),
        _velocityIterator(_flowField,parameters,_velocityStencil),
        _obstacleIterator(_flowField,parameters,_obstacleStencil),
-
+       _vtkStencil(parameters),
+       _vtkIterator(_flowField,parameters,_vtkStencil),
        _solver(_flowField,parameters)
        {
        }
@@ -138,8 +141,8 @@ class Simulation {
 
     /** TODO WS1: plots the flow field. */
     virtual void plotVTK(int timeStep){
-      VTKStencil _vtkStencil(_parameters);
-      FieldIterator<FlowField> _vtkIterator(_flowField,_parameters,_vtkStencil);        
+      // VTKStencil _vtkStencil(_parameters);
+      // FieldIterator<FlowField> _vtkIterator(_flowField,_parameters,_vtkStencil);        
       _vtkIterator.iterate();
       _vtkStencil.write(_flowField,timeStep);
     }

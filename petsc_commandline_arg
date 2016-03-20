@@ -1,6 +1,6 @@
 #### this shows the solver used
 #-ksp_view
--ksp_converged_reason
+#-ksp_converged_reason
 ### plotting the convergence of the solver
 #-ksp_monitor
 
