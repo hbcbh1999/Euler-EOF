@@ -4,33 +4,45 @@
 
 #include "../Simulation.h"
 #include "../EulerSolver/InviscidFlowField.h"
+#include "../stencils/PointCoordinateStencil.h"
 #include "../stencils/DomainTransformStencil.h"
+#include "../stencils/VTKGeoStencil.h"
 #include "../Iterators.h"
 
 class InviscidSimulation : public Simulation {
 protected:
 	InviscidFlowField &_inviscidFlowField;
-
+	PointCoordinateStencil _pointCoordinateStencil;
+	FieldIterator<InviscidFlowField> _pointCoordinateIterator;
 	DomainTransformStencil _domainTransformStencil;
 	FieldIterator<InviscidFlowField> _domainTransformIterator;
+	VTKGeoStencil _vtkGeoStencil;
+	FieldIterator<InviscidFlowField> _vtkGeoIterator;
 
 public:
 	InviscidSimulation(Parameters &parameters, InviscidFlowField &inviscidFlowField):
 	Simulation(parameters,inviscidFlowField),
 	_inviscidFlowField(inviscidFlowField),
+	_pointCoordinateStencil(parameters),
+	_pointCoordinateIterator(inviscidFlowField,parameters,_pointCoordinateStencil),
 	_domainTransformStencil(parameters),
-	_domainTransformIterator(inviscidFlowField,parameters,_domainTransformStencil)
+	_domainTransformIterator(inviscidFlowField,parameters,_domainTransformStencil),
+	_vtkGeoStencil(parameters),
+    _vtkGeoIterator(inviscidFlowField,parameters,_vtkGeoStencil)
+      
 	{}
+
+	void loadPointCoordinate(){
+		_pointCoordinateIterator.iterate();
+	}
 
 	void computeTransformMetrics(){
 		_domainTransformIterator.iterate();
 	}
 
-virtual void plotVTK(int timeStep){
-      VTKStencil _vtkStencil(_parameters);
-      FieldIterator<FlowField> _vtkIterator(_inviscidFlowField,_parameters,_vtkStencil);
-      _vtkIterator.iterate();
-      _vtkStencil.write(_inviscidFlowField,timeStep);
+	void plotGeoVTK(int timeStep){
+      _vtkGeoIterator.iterate();
+      _vtkGeoStencil.write(_inviscidFlowField,timeStep);
     }
 
 };

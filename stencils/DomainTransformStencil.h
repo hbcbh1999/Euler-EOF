@@ -20,8 +20,8 @@ public:
          * @param i Position in the X direction
          * @param j Position in the Y direction
          */
-    void apply ( InviscidFlowField & InviscidFlowField, int i, int j ); 
-    void apply ( InviscidFlowField & InviscidFlowField, int i, int j, int k );
+    void apply ( InviscidFlowField & inviscidFlowField, int i, int j ); 
+    void apply ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
  
 };
 #endif //_DOMAIN_TRANSFORM_STENCIL_H_

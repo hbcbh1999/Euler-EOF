@@ -12,7 +12,8 @@ class InviscidFlowField : public FlowField {
         VectorField _eta;
         // VectorField _phi; // TODO: 3D extension
         ScalarField _J;
-// 
+        VectorField _pointCoordinate;
+//
     public:
         InviscidFlowField (const Parameters & parameters);
         /** Get domain transformation metrics field
@@ -21,7 +22,7 @@ class InviscidFlowField : public FlowField {
         VectorField & getXi ();
         VectorField & getEta ();
         ScalarField & getJ ();
-       
+        VectorField & getPointCoordinate();
 
 };
 

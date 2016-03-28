@@ -1,6 +1,6 @@
 #### The petsc environment can also be fixed in the makefile
-# PETSC_DIR = 
-# PETSC_ARCH = 
+# PETSC_DIR =
+# PETSC_ARCH =
 PETSC_DIR = /opt/petsc/petsc-3.5.4
 include ${PETSC_DIR}/conf/variables
 
@@ -12,12 +12,12 @@ include ${PETSC_DIR}/conf/variables
 #
 #
 CC = mpic++
-CFLAGS = -Wall -Werror -O3 
+CFLAGS = -Wall -Werror -O3
 SRCDIR = ./
 INCLUDE = -I. -Istencils ${PETSC_CC_INCLUDES}
 
 
-NSMAIN = main.o
+NSMAIN = main_test.o
 
 OBJ = DataStructures.o Configuration.o 3rdparty/tinyxml2/tinyxml2.o SimpleTimer.o
 
@@ -26,8 +26,10 @@ stencils/MaxUStencil.o stencils/MovingWallStencils.o stencils/PeriodicBoundarySt
 stencils/FGHStencil.o solvers/SORSolver.o solvers/PetscSolver.o \
 stencils/RHSStencil.o stencils/VelocityStencil.o \
 stencils/VTKStencil.o \
+stencils/VTKGeoStencil.o \
 EulerSolver/InviscidFlowField.o \
 stencils/DomainTransformStencil.o \
+stencils/PointCoordinateStencil.o \
 parallelManagers/PetscParallelConfiguration.o\
 GlobalBoundaryFactory.o\
 stencils/BFStepInitStencil.o stencils/NeumannBoundaryStencils.o stencils/BFInputStencils.o stencils/ObstacleStencil.o\
@@ -42,6 +44,6 @@ ns: $(OBJ) $(NSOBJ) $(NSMAIN)
 	$(CC) -c $(CFLAGS) $(INCLUDE) -o $*.o $*.cpp $(PETSC_KSP_LIB) -lstdc++
 
 cleanall clean:
-	for name in  ns main.o $(NSOBJ) $(OBJ) ; do \
+	for name in  ns main.o main_test.o $(NSOBJ) $(OBJ) ; do \
 	if [ -f $$name ]; then rm $$name; fi; \
 	done;

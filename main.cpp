@@ -29,7 +29,7 @@ int main (int argc, char *argv[]) {
     MeshsizeFactory::getInstance().initMeshsize(parameters);
     FlowField *flowField = NULL;
     Simulation *simulation = NULL;
-    
+
     #ifdef DEBUG
     std::cout << "Processor " << parameters.parallel.rank << " with index ";
     std::cout << parameters.parallel.indices[0] << ",";
@@ -50,13 +50,13 @@ int main (int argc, char *argv[]) {
       // TODO WS2: initialise turbulent flow field and turbulent simulation object
       handleError(1,"Turbulence currently not supported yet!");
     } else if (parameters.simulation.type=="inviscid"){
-    
+
        InviscidFlowField *inviscidFlowField = NULL;
         inviscidFlowField = new InviscidFlowField(parameters);
         flowField = inviscidFlowField;
         if(flowField == NULL)
-        { 
-          handleError(1, "flowField==NULL!"); 
+        {
+          handleError(1, "flowField==NULL!");
         }
         simulation = new InviscidSimulation(parameters,*inviscidFlowField);
 

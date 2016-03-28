@@ -81,12 +81,14 @@ int main (int argc, char *argv[]) {
 
     //flowField->getFlags().show();
     // FLOAT time = 0.0;
-    // FLOAT timeStdOut=parameters.stdOut.interval;
+    // FLOAT timeStdOut=parameters.stdOut.interval;c
     int timeSteps = 0;
     // int OutputTimes = 1;
     // TODO WS1: plot initial state
+    ((InviscidSimulation*)simulation)->loadPointCoordinate();
     ((InviscidSimulation*)simulation)->computeTransformMetrics();
-    simulation->plotVTK(timeSteps);
+
+    ((InviscidSimulation*)simulation)->plotGeoVTK(timeSteps);
     // time loop
 
 

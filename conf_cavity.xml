@@ -8,7 +8,7 @@
     <timestep dt="1" tau="0.5" />
     <solver gamma="0.5" />
     <geometry dim="2"
-      lengthX="1.0" lengthY="1.0" lengthZ="1.0" sizeX="50" sizeY="50" sizeZ="1"
+      lengthX="1.0" lengthY="1.0" lengthZ="1.0" sizeX="3" sizeY="3" sizeZ="1"
     >
       <mesh>uniform</mesh>
     </geometry>

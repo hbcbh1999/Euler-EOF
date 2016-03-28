@@ -7,7 +7,9 @@ InviscidFlowField::InviscidFlowField(const Parameters & parameters):
     _eta(parameters.geometry.dim==2?VectorField(getCellsX() + 3, getCellsY() + 3):
                       VectorField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
     _J(parameters.geometry.dim==2?ScalarField(getCellsX() + 3, getCellsY() + 3):
-                      ScalarField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3))
+                      ScalarField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+    _pointCoordinate(parameters.geometry.dim==2?VectorField(getCellsX() + 3, getCellsY() + 3):
+                      VectorField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3))
   {}
 
 	VectorField & InviscidFlowField::getXi () {
@@ -20,4 +22,8 @@ InviscidFlowField::InviscidFlowField(const Parameters & parameters):
 
   ScalarField & InviscidFlowField::getJ(){
     return _J;
+  }
+
+  VectorField & InviscidFlowField::getPointCoordinate(){
+    return _pointCoordinate;
   }
