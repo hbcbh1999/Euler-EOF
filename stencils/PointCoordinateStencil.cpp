@@ -9,8 +9,8 @@ void PointCoordinateStencil::apply ( InviscidFlowField & inviscidFlowField, int 
 	GridPoint2D point = ComputePosition2D(i,j,input1);
 	//-------------------------------------------
 	
-	inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = point.x;
-	inviscidFlowField.getPointCoordinate().getVector(i, j)[2] = point.y;
+	inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = point.x;
+	inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = point.y;
 	// std::cout<< point.x << std::endl;
 
 }

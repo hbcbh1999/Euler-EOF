@@ -235,6 +235,7 @@ void Configuration::loadParameters(Parameters & parameters, const MPI_Comm & com
         }
 
         readFloatMandatory(parameters.flow.Re, node, "Re");
+        readFloatMandatory(parameters.flow.Ma, node, "Ma");
 
         //--------------------------------------------------
         // Solver parameters
@@ -314,6 +315,16 @@ void Configuration::loadParameters(Parameters & parameters, const MPI_Comm & com
 
         // If no value given, print every step
         readFloatOptional(parameters.stdOut.interval, node, "interval", 1);
+
+        //--------------------------------------------------
+        // Block parameters
+        //--------------------------------------------------
+
+        // node = confFile.FirstChildElement()->FirstChildElement("block");
+        // if (node == NULL){
+        //    handleError(1, "Error loading block parameters");
+        // }
+
 
         //--------------------------------------------------
         // Parallel parameters

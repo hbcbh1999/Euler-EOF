@@ -32,7 +32,10 @@ class EnvironmentalParameters{
 class FlowParameters{
     public:
         FLOAT Re;  //! Reynolds number
+        FLOAT Ma;   // Mach number
+        FLOAT HeatCapacityRatio;
 };
+
 
 class SolverParameters{
     public:
@@ -102,6 +105,7 @@ class StdOutParameters{
         FLOAT interval;
 };
 
+
 class ParallelParameters{
     public:
 
@@ -118,6 +122,7 @@ class ParallelParameters{
         int frontNb;
         int backNb;
         //@}
+
 
         int indices[3];           //! 3D indices to locate the array
         int localSize[3];       //! Size for the local flow field

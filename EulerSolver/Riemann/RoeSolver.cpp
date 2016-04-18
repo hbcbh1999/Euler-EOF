@@ -2,12 +2,12 @@
 #include <cmath>
 #include <vector>
 
-std::vector<double> RoeSolver(std::vector<double> U_L, std::vector<double> U_R, std::vector<double> F_L, std::vector<double> F_R, int dim, double gamma)
+std::vector<double> RoeSolver(std::vector<double> U_L, std::vector<double> U_R, std::vector<double> F_L, std::vector<double> F_R, double gamma)
 {
 
 // This function treat Riemann problem on x, y, z direction by changing the sequency of the varible in the outside input. When calculate flux G on y direction, we pass U = [rho, v, u, E] from outside but assign in the function as [rho, u, v, E].  
-	std::vector<double> F_mid;
-	if (dim == 2)
+	std::vector<double> F_interface;
+	if ( U_L.size() == 4)
 	{
 		// TODO: assert the length of the vector to be 4
 
@@ -20,7 +20,7 @@ std::vector<double> RoeSolver(std::vector<double> U_L, std::vector<double> U_R, 
 		E_L = U_L[3];
 
 		V_L = sqrt(pow(u_L,2) + pow(v_L,2) );
-		p_L = (gamma - 1) * (E_L - 0.5 * rho_L * pow(V_L, 2))
+		p_L = (gamma - 1) * (E_L - 0.5 * rho_L * pow(V_L, 2));
 		H_L = (E_L + p_L)/rho_L;
 
 		rho_R = U_R[0];
@@ -62,13 +62,14 @@ std::vector<double> RoeSolver(std::vector<double> U_L, std::vector<double> U_R, 
 		// Solve the wave strength from the jump of the state deltaU
 
 		double deltaU[4],alpha[4];
+
 		for (int i=0; i<4; i++)
 		{
 			deltaU[i] = U_R[i]-U_L[i];
 		}
 
 		alpha[1] = (gamma-1)/pow(a_m,2)*(deltaU[0]*(H_m-pow(u_m,2))-u_m*deltaU[1]-(deltaU[3]-(deltaU[2]-v_m*deltaU[0])*v_m));
-		alpha[0] = 1/(2*a_m)*(deltaU[0]*(u_m+a_m)-deltaU[1]-a_m*alpha[2]);
+		alpha[0] = 1/(2*a_m)*(deltaU[0]*(u_m+a_m)-deltaU[1]-a_m*alpha[1]);
 		alpha[3] = deltaU[0] - (alpha[0]+alpha[1]);
 		alpha[2] = deltaU[2] - v_m * deltaU[0];
 
@@ -82,13 +83,13 @@ std::vector<double> RoeSolver(std::vector<double> U_L, std::vector<double> U_R, 
 				SumAlphaLambdaK = SumAlphaLambdaK + alpha[i]* std::abs(lambda[i])*K[i][j];
 			}
 			double result = 0.5*(F_L[j]+F_R[j]) - 0.5 * SumAlphaLambdaK;
-			F_mid.push_back(result);
+			F_interface.push_back(result);
 		}	  
 	}
-	else if (dim == 3)
+	else
 	{
 		// TODO: 3D case
 	}
 
-	return F_mid;
+	return F_interface;
 }

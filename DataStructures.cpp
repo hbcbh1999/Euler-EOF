@@ -49,6 +49,7 @@ VectorField::VectorField ( int Nx, int Ny ): Field<FLOAT> ( Nx, Ny, 1,  2 ) {
 }
 
 
+
 VectorField::VectorField ( int Nx, int Ny, int Nz ): Field<FLOAT> ( Nx, Ny, Nz, 3 ) {
     initialize();
 }
@@ -125,5 +126,52 @@ void IntScalarField::show(const std::string title){
             std::cout << std::endl;
         }
         std::cout << std::endl;
+    }
+}
+// Functions related to the Flux field --------------------------------------
+
+FluxField::FluxField ( int Nx, int Ny ): Field<FLOAT> ( Nx, Ny, 1,  4 ) {
+    initialize();
+}
+
+
+FluxField::FluxField ( int Nx, int Ny, int Nz ): Field<FLOAT> ( Nx, Ny, Nz, 5 ) {
+    initialize();
+}
+
+
+FLOAT* FluxField::getFlux ( int i, int j, int k ) {
+    return &_data[index2array( i, j, k )];
+}
+
+
+void FluxField::show(const std::string title){
+    std::cout << std::endl << "--- " << title << " ---" << std::endl;
+    std::cout << "Component 1" << std::endl;
+    for (int k = 0; k < _size_z; k++){
+        for (int j = _size_y-1; j > -1; j--){
+            for (int i = 0; i < _size_x; i++){
+                std::cout << getFlux(i,j,k)[0] << "\t";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
+
+    std::cout << "Component 2" << std::endl;
+    for (int k = 0; k < _size_z; k++){
+        for (int j = _size_y-1; j > -1; j--){
+            for (int i = 0; i < _size_x; i++){
+                std::cout << getFlux(i,j,k)[1] << "\t";
+            }
+            std::cout << std::endl;
+        }
+        std::cout << std::endl;
+    }
+}
+
+void FluxField::initialize () {
+    for ( int i = 0; i < _size; i++ ){
+        _data[i] = 0.0;
     }
 }

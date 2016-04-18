@@ -38,15 +38,7 @@ int main (int argc, char *argv[]) {
     } 
     else if (parameters.simulation.type=="inviscid")
     {
-      // InviscidFlowField *inviscidFlowField = NULL;
-      // inviscidFlowField = new InviscidFlowField(parameters);
-      // flowField = inviscidFlowField;
-      // if(flowField == NULL)
-      // {
-      //   handleError(1, "flowField==NULL!"); 
-      // }
-
-       InviscidFlowField *inviscidFlowField = NULL;
+        InviscidFlowField *inviscidFlowField = NULL;
         inviscidFlowField = new InviscidFlowField(parameters);
         flowField = inviscidFlowField;
         if(flowField == NULL)
@@ -79,18 +71,13 @@ int main (int argc, char *argv[]) {
     }
     simulation->initializeFlowField();
 
-    //flowField->getFlags().show();
     // FLOAT time = 0.0;
-    // FLOAT timeStdOut=parameters.stdOut.interval;c
+    // FLOAT timeStdOut=parameters.stdOut.interval;
     int timeSteps = 0;
     // int OutputTimes = 1;
-    // TODO WS1: plot initial state
-    ((InviscidSimulation*)simulation)->loadPointCoordinate();
-    ((InviscidSimulation*)simulation)->computeTransformMetrics();
 
-    ((InviscidSimulation*)simulation)->plotGeoVTK(timeSteps);
-    // time loop
-
+    ((InviscidSimulation*) simulation)->ApplyDomainTransformed();
+    ((InviscidSimulation*) simulation)->plotGeoVTK(timeSteps);
 
     delete simulation; simulation=NULL;
     delete flowField;  flowField= NULL;

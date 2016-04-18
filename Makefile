@@ -30,8 +30,12 @@ stencils/VTKGeoStencil.o \
 EulerSolver/InviscidFlowField.o \
 stencils/DomainTransformStencil.o \
 stencils/PointCoordinateStencil.o \
-parallelManagers/PetscParallelConfiguration.o\
+stencils/UFGHStencil.o \
+stencils/UFGHBoundaryStencil.o \
+stencils/RoeStencil.o \
+parallelManagers/PetscParallelConfiguration.o \
 GlobalBoundaryFactory.o\
+EulerSolver/InviscidGlobalBoundaryFactory.o\
 stencils/BFStepInitStencil.o stencils/NeumannBoundaryStencils.o stencils/BFInputStencils.o stencils/ObstacleStencil.o\
 
 all: ns

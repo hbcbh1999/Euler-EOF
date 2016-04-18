@@ -206,7 +206,7 @@ class VectorField: public Field<FLOAT>
 
 
 /** Integer field
- * 
+ *
  * Integer field with one value per position. Intended to represent flag
  * fields. Implemented because templates are undesirable at this point
  */
@@ -250,5 +250,61 @@ class IntScalarField : public Field<int> {
 
         void show (const std::string title = "");
 };
+
+/** @Mou Lin: Flux field representation
+ *
+ * Stores the flux field from Euler equation. Derived from Field.
+ * In 2D it holds a 4-component vector and in 3D a 5-component vector.
+ */
+class FluxField: public Field<FLOAT>
+{
+    private:
+         /** initializes the data of the scalar field by zeros. */
+         void initialize();
+
+    public:
+
+        /** 2D Flux field constructor.
+         *
+         * Sets the size of the data array and allocates data for the 2D field
+         *
+         * @param Nx Number of cells in direction x
+         * @param Ny Number of cells in direction y
+         * @param Nz Number of cells in direction z
+         */
+        FluxField ( int Nx, int Ny );
+
+        /** 3D Flux field constructor.
+         *
+         * Sets the size of the data array and allocates data for the 3D field
+         *
+         * @param Nx Number of cells in direction x
+         * @param Ny Number of cells in direction y
+         * @param Nz Number of cells in direction z
+         */
+        FluxField ( int Nx, int Ny, int Nz );
+
+        /** Non constant acces to an element in the vector field
+         *
+         * Returns a pointer to the position in the array that can be used to
+         * modify it.
+         *
+         * @param i x index
+         * @param j y index
+         * @param k z index
+         */
+        FLOAT* getFlux ( int i, int j, int k = 0 );
+
+        /** Prints the contents of the field
+         *
+         * Shows the content of the first two components of a vector field by printing them to
+         * stdout. Only clear if the matrix is small enough. Used for debugging.
+         *
+         * @param title A label for the printed matrix
+         */
+        void show (const std::string title = "");
+};
+
+
 
 #endif

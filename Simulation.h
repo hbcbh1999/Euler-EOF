@@ -87,7 +87,7 @@ class Simulation {
         InitTaylorGreenFlowFieldStencil stencil(_parameters);
         FieldIterator<FlowField> iterator(_flowField,_parameters,stencil);
         iterator.iterate();
-      } else if (_parameters.simulation.scenario=="channel"){
+      } else if (_parameters.simulation.scenario=="channel"||"slope-channel"){
         BFStepInitStencil stencil(_parameters);
         FieldIterator<FlowField> iterator(_flowField,_parameters,stencil,0,1);
         iterator.iterate();

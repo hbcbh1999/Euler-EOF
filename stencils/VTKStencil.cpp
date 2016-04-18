@@ -12,6 +12,10 @@ VTKStencil::VTKStencil(const Parameters & parameters) :
 
 void VTKStencil::apply ( FlowField & flowField, int i, int j )
 {
+
+	// const int obstacle = flowField.getFlags().getValue(i, j);
+	// if ((obstacle & OBSTACLE_SELF) == 0){
+
 	// Mute the output on ghost layer
 	if (i==1 || j == 1)
 	{
@@ -53,18 +57,11 @@ void VTKStencil::apply ( FlowField & flowField, int i, int j )
 	{		
 		flowField.getPressureAndVelocity( flowField.getPressure().getScalar(i, j), velocity, i, j);
 		velocityValue << velocity[0] << " " << velocity[1] << " " << 0 << "\n" ;
-		pressureValue << flowField.getPressure().getScalar(i,j) << "\n";
-
-   		// if (_inviscid)
-    	// {
-    	// 	InviscidFlowField inviscidFlowField;
-    	// 	JValue << inviscidFlowField.getJ().getScalar(i,j) << "\n";
-    	// }       		
+		pressureValue << flowField.getPressure().getScalar(i,j) << "\n"; 		
+	}
 	}
 
-
-
-	}
+// }
 }
 
 
