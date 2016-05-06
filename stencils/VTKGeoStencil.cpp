@@ -52,7 +52,7 @@ void VTKGeoStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j 
 	    JValue << inviscidFlowField.getJ().getScalar(i,j) << "\n";
     }       		
 
-
+std::cout<< inviscidFlowField.getJ().getScalar(i,j) << "\n";
 
 }
 
@@ -188,5 +188,5 @@ void VTKGeoStencil::write ( InviscidFlowField &  inviscidFlowField, int timeStep
 		vtkFile << JValue.str() << "\n"; 
 
 	}
-
+		vtkFile.close();
 }

@@ -236,6 +236,7 @@ void Configuration::loadParameters(Parameters & parameters, const MPI_Comm & com
 
         readFloatMandatory(parameters.flow.Re, node, "Re");
         readFloatMandatory(parameters.flow.Ma, node, "Ma");
+        readFloatMandatory(parameters.flow.HeatCapacityRatio, node, "HeatCapacityRatio");
 
         //--------------------------------------------------
         // Solver parameters

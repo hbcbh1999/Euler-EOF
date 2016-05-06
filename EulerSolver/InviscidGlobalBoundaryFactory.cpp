@@ -7,34 +7,35 @@ InviscidGlobalBoundaryFactory::InviscidGlobalBoundaryFactory(Parameters & parame
     // All stencils are created, disregarding wether they will be used or not. This is less
     // complicated and doesn't seem that costly
 
-    _inlet = new UFGHInletBoundaryStencil(parameters);
+    _inlet = new InletBoundaryConditionStencil(parameters);
 
-    _wall = new UFGHWallBoundaryStencil(parameters);
+    _wall = new WallBoundaryConditionStencil(parameters);
 
-    _outflow = new UFGHOutflowBoundaryStencil(parameters);
+    _outflow = new OutflowBoundaryConditionStencil(parameters);
 
     // Then, assign them according to the scenario
     std::string scenario = parameters.simulation.scenario;
 
-    if (scenario == "slope channel"){
+    if (scenario == "channel"){
         // To the left, we have the input
-        _UFGHBoundaryStencil[0] = _inlet;
+        _BoundaryConditionStencil[0] = _inlet;
 
         // To the right, there is an outflow boundary
-        _UFGHBoundaryStencil[1] = _outflow;
+        _BoundaryConditionStencil[1] = _outflow;
 
         // The other walls are moving walls
         for (int i = 2; i < 6; i++){
-            _UFGHBoundaryStencil[i] = _wall;
+            _BoundaryConditionStencil[i] = _wall;
         }
-
-        parameters.walls.typeLeft   = DIRICHLET;
-        parameters.walls.typeRight  = NEUMANN;
-        parameters.walls.typeBottom = DIRICHLET;
-        parameters.walls.typeTop    = DIRICHLET;
-        parameters.walls.typeFront  = DIRICHLET;
-        parameters.walls.typeBack   = DIRICHLET;
-    } else {
+    }
+    else if (scenario == "shock tube")
+    {
+        for (int i = 0; i < 6; i++){
+            _BoundaryConditionStencil[i] = _wall;
+        }
+    } 
+    else 
+    {
         handleError(1, "Scenario not recognized");
     }
 }
@@ -52,13 +53,13 @@ GlobalBoundaryIterator<InviscidFlowField> InviscidGlobalBoundaryFactory::
     getUFGHGlobalBoundaryIterator(InviscidFlowField & inviscidFlowField){
     if (_parameters.geometry.dim == 2){
         return GlobalBoundaryIterator<InviscidFlowField>(inviscidFlowField, _parameters,
-                                      *(_UFGHBoundaryStencil[0]), *(_UFGHBoundaryStencil[1]),
-                                      *(_UFGHBoundaryStencil[2]), *(_UFGHBoundaryStencil[3]),
+                                      *(_BoundaryConditionStencil[0]), *(_BoundaryConditionStencil[1]),
+                                      *(_BoundaryConditionStencil[2]), *(_BoundaryConditionStencil[3]),
                                       1, 0);
      }
     return GlobalBoundaryIterator<InviscidFlowField>(inviscidFlowField, _parameters,
-                                  *(_UFGHBoundaryStencil[0]), *(_UFGHBoundaryStencil[1]),
-                                  *(_UFGHBoundaryStencil[2]), *(_UFGHBoundaryStencil[3]),
-                                  *(_UFGHBoundaryStencil[4]), *(_UFGHBoundaryStencil[5]),
+                                  *(_BoundaryConditionStencil[0]), *(_BoundaryConditionStencil[1]),
+                                  *(_BoundaryConditionStencil[2]), *(_BoundaryConditionStencil[3]),
+                                  *(_BoundaryConditionStencil[4]), *(_BoundaryConditionStencil[5]),
                                   1, 0);
 }

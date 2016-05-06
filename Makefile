@@ -12,7 +12,7 @@ include ${PETSC_DIR}/conf/variables
 #
 #
 CC = mpic++
-CFLAGS = -Wall -Werror -O3
+CFLAGS = -Wall -std=c++0x
 SRCDIR = ./
 INCLUDE = -I. -Istencils ${PETSC_CC_INCLUDES}
 
@@ -26,13 +26,18 @@ stencils/MaxUStencil.o stencils/MovingWallStencils.o stencils/PeriodicBoundarySt
 stencils/FGHStencil.o solvers/SORSolver.o solvers/PetscSolver.o \
 stencils/RHSStencil.o stencils/VelocityStencil.o \
 stencils/VTKStencil.o \
-stencils/VTKGeoStencil.o \
 EulerSolver/InviscidFlowField.o \
-stencils/DomainTransformStencil.o \
 stencils/PointCoordinateStencil.o \
-stencils/UFGHStencil.o \
-stencils/UFGHBoundaryStencil.o \
+stencils/TransformMetricesStencil.o \
+stencils/InitialConditionStencil.o \
+stencils/DomainTransformStencil.o \
+stencils/BoundaryConditionStencil.o \
 stencils/RoeStencil.o \
+stencils/SMaxStencil.o \
+stencils/GodunovStencil.o\
+stencils/RecoverStencil.o\
+stencils/DebugStencil.o\
+stencils/VTKGeoStencil.o\
 parallelManagers/PetscParallelConfiguration.o \
 GlobalBoundaryFactory.o\
 EulerSolver/InviscidGlobalBoundaryFactory.o\

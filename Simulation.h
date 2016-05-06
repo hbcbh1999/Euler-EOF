@@ -19,12 +19,9 @@
 #include "GlobalBoundaryFactory.h"
 #include "Iterators.h"
 #include "Definitions.h"
-
 #include "LinearSolver.h"
 #include "solvers/SORSolver.h"
 #include "solvers/PetscSolver.h"
-
-
 
 class Simulation {
   protected:

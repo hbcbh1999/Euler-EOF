@@ -4,9 +4,11 @@
 #include "../Stencil.h"
 #include "../Parameters.h"
 #include "../EulerSolver/InviscidFlowField.h"
+#include "../EulerSolver/TransformFunction.h"
 
-class DomainTransformStencil : public FieldStencil<InviscidFlowField>,public BoundaryStencil<InviscidFlowField>  {
-
+class DomainTransformStencil : public FieldStencil<InviscidFlowField>, public BoundaryStencil<InviscidFlowField> {
+protected:
+    FLOAT HeatCapacityRatio;
 public:
 
 	/** Constructor
@@ -21,21 +23,22 @@ public:
          */
     void apply ( InviscidFlowField & inviscidFlowField, int i, int j ); 
     void apply ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
-    // //@ brief Boundary iterations for the 2D problem
-    // //@param inviscidFlowField Flow field with the state of the fluid
-    // //@param i Position in the X direction
-    // //@param j Position in the Y direction
-    // //@{
+
+        //@brief Functions for the 2D problem. Coordinates entered in alphabetical order.
     void applyLeftWall   ( InviscidFlowField & inviscidFlowField, int i, int j );
     void applyRightWall  ( InviscidFlowField & inviscidFlowField, int i, int j );
     void applyBottomWall ( InviscidFlowField & inviscidFlowField, int i, int j );
     void applyTopWall    ( InviscidFlowField & inviscidFlowField, int i, int j );
+
+    // TODO: 3D
     void applyLeftWall   ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
-    void applyRightWall  ( InviscidFlowField & inviscidFlowField, int i, int j,int k );
-    void applyBottomWall ( InviscidFlowField & inviscidFlowField, int i, int j,int k );
-    void applyTopWall    ( InviscidFlowField & inviscidFlowField, int i, int j,int k );
-    void applyFrontWall ( InviscidFlowField & inviscidFlowField, int i, int j,int k );
-    void applyBackWall    ( InviscidFlowField & inviscidFlowField, int i, int j,int k );
+    void applyRightWall  ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
+    void applyBottomWall ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
+    void applyTopWall    ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
+    void applyFrontWall  ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
+    void applyBackWall   ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
+
+    void ConstructUFGH2D ( InviscidFlowField & inviscidFlowField, int i, int j ) ;
  
 };
-#endif //_DOMAIN_TRANSFORM_STENCIL_H_
+#endif

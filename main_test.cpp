@@ -6,6 +6,7 @@
 #include "parallelManagers/PetscParallelConfiguration.h"
 #include "MeshsizeFactory.h"
 #include <iomanip>
+#include <array>
 #include "../EulerSolver/InviscidSimulation.h"
 
 int main (int argc, char *argv[]) {
@@ -70,15 +71,27 @@ int main (int argc, char *argv[]) {
       handleError(1, "simulation==NULL!"); 
     }
     simulation->initializeFlowField();
+    ((InviscidSimulation*) simulation)->inviscid_initialization();
 
-    // FLOAT time = 0.0;
-    // FLOAT timeStdOut=parameters.stdOut.interval;
+    ((InviscidSimulation*) simulation)->debugPlot(0);
+    FLOAT time = 0.0;
+    FLOAT timeStdOut=parameters.stdOut.interval;
     int timeSteps = 0;
-    // int OutputTimes = 1;
+    int OutputTimes = 1;
 
-    ((InviscidSimulation*) simulation)->ApplyDomainTransformed();
-    ((InviscidSimulation*) simulation)->plotGeoVTK(timeSteps);
 
+    while (timeSteps < 2000)
+    {
+        ((InviscidSimulation*) simulation)->inviscid_solveTimeSteps();
+    // // //     time += parameters.timestep.dt;
+        std::cout << "timestep: " << timeSteps << std::endl;
+    // //     // timeStdOut += parameters.stdOut.interval;
+        timeSteps++;
+    // ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
+    }
+
+    ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
+ 
     delete simulation; simulation=NULL;
     delete flowField;  flowField= NULL;
 

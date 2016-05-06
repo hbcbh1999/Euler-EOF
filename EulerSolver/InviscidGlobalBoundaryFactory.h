@@ -4,7 +4,7 @@
 #include <string>
 #include "Parameters.h"
 #include "Iterators.h"
-#include "../stencils/UFGHBoundaryStencil.h"
+#include "../stencils/BoundaryConditionStencil.h"
 #include "../EulerSolver/InviscidFlowField.h"
 
 /** Class that returns instances of the global boundary iterator. It also contains the stencils.
@@ -14,7 +14,7 @@ class InviscidGlobalBoundaryFactory{
 
     private:
         // List of all the stencils
-        BoundaryStencil<InviscidFlowField> * _UFGHBoundaryStencil[6];    //! A stencil for each face
+        BoundaryStencil<InviscidFlowField> * _BoundaryConditionStencil[6];    //! A stencil for each face
         BoundaryStencil<InviscidFlowField> * _wall;        //! Pointers to wall conditions
         BoundaryStencil<InviscidFlowField> * _outflow;     //! Pointers for the outflow conditions
         BoundaryStencil<InviscidFlowField> * _inlet;    //! For the velocity input
