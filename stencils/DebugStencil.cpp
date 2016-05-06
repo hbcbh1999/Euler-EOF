@@ -352,33 +352,33 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 
 	vtkFile.open(fileName.c_str());
 
-	// vtkFile << "X_Value" << "\n";
-	// vtkFile << XValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	vtkFile << "X_Value" << "\n";
+	vtkFile << XValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	// vtkFile << "Y_Value" << "\n";
-	// vtkFile << YValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
+	vtkFile << "Y_Value" << "\n";
+	vtkFile << YValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
 
-	// vtkFile << "J_Value" << "\n";
-	// vtkFile << JValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	vtkFile << "J_Value" << "\n";
+	vtkFile << JValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	// vtkFile << "xi0_Value" << "\n";
-	// vtkFile << xi0ValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";
+	vtkFile << "xi0_Value" << "\n";
+	vtkFile << xi0ValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";
 
-	// vtkFile << "xi1_Value" << "\n";
-	// vtkFile << xi1ValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";
+	vtkFile << "xi1_Value" << "\n";
+	vtkFile << xi1ValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";
 
-	// vtkFile << "eta0_Value" << "\n";
-	// vtkFile << eta0ValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";
+	vtkFile << "eta0_Value" << "\n";
+	vtkFile << eta0ValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";
 
-	// vtkFile << "eta1_Value" << "\n";
-	// vtkFile << eta1ValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
+	vtkFile << "eta1_Value" << "\n";
+	vtkFile << eta1ValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
 
 	vtkFile << "Density_Value" << "\n";
 	vtkFile << DensityValueOutput.str();

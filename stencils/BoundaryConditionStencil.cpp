@@ -6,7 +6,7 @@ InletBoundaryConditionStencil::InletBoundaryConditionStencil(const Parameters & 
     	HeatCapacityRatio = parameters.flow.HeatCapacityRatio;
     	// Freestream velocity
     	FreeStreamVelocity[0] = parameters.flow.Ma;                   
-    	FreeStreamVelocity[1] = parameters.flow.Ma/5;		
+    	FreeStreamVelocity[1] = 0;		
     	FreeStreamVelocity[2] = 0.0;                           
     }
 
@@ -137,48 +137,48 @@ void WallBoundaryConditionStencil::applyRightWall  ( InviscidFlowField & invisci
 void WallBoundaryConditionStencil::applyBottomWall ( 
 	InviscidFlowField & inviscidFlowField, int i, int j )
 {	
- //    FLOAT J, xi[2], eta[2], XI, ETA; 
- //    J = inviscidFlowField.getJ().getScalar(i,j);
- //    xi[0] = inviscidFlowField.getXi().getVector(i,j)[0];
- //    xi[1] = inviscidFlowField.getXi().getVector(i,j)[1];
- //    eta[0] = inviscidFlowField.getEta().getVector(i,j)[0];
- //    eta[1] = inviscidFlowField.getEta().getVector(i,j)[1];
+    FLOAT J, xi[2], eta[2], XI, ETA; 
+    J = inviscidFlowField.getJ().getScalar(i,j);
+    xi[0] = inviscidFlowField.getXi().getVector(i,j)[0];
+    xi[1] = inviscidFlowField.getXi().getVector(i,j)[1];
+    eta[0] = inviscidFlowField.getEta().getVector(i,j)[0];
+    eta[1] = inviscidFlowField.getEta().getVector(i,j)[1];
 
- //    ETA = sqrt(pow(eta[0],2) + pow(eta[1],2));
- //    XI = sqrt(pow(xi[0],2) + pow(xi[1],2));
+    ETA = sqrt(pow(eta[0],2) + pow(eta[1],2));
+    XI = sqrt(pow(xi[0],2) + pow(xi[1],2));
 
-	// FLOAT pv_g[4],pv_i[4],pv_b[4];		// Primative variables for freestream, ghost cell, interior cell
-	// // Ghost variables;
+	FLOAT pv_g[4],pv_i[4],pv_b[4];		// Primative variables for freestream, ghost cell, interior cell
+	// Ghost variables;
 
-	// // Interior variables
-	// pv_i[0] = inviscidFlowField.getDensity().getScalar(i,j+1);
-	// pv_i[1] = inviscidFlowField.getVelocity().getVector(i,j+1)[0];
-	// pv_i[2] = inviscidFlowField.getVelocity().getVector(i,j+1)[1];
-	// pv_i[3] = inviscidFlowField.getPressure().getScalar(i,j+1);
-	// // Initially compute wall primative variables by linearization
+	// Interior variables
+	pv_i[0] = inviscidFlowField.getDensity().getScalar(i,j+1);
+	pv_i[1] = inviscidFlowField.getVelocity().getVector(i,j+1)[0];
+	pv_i[2] = inviscidFlowField.getVelocity().getVector(i,j+1)[1];
+	pv_i[3] = inviscidFlowField.getPressure().getScalar(i,j+1);
+	// Initially compute wall primative variables by linearization
  
-	// FLOAT r0 = 1.0; 
-	// FLOAT c0 = 1.0; 
+	FLOAT r0 = 1.0; 
+	FLOAT c0 = 1.0; 
 
-	// pv_b[3] = pv_i[3] /*+ r0 * c0 * (eta[0] * pv_i[1] + eta[1] * pv_i[2])/ETA*/;
-	// pv_b[0] = pv_i[0] + ( pv_b[3] - pv_i[3] )/pow(c0,2);
-	// pv_b[1] = pv_i[1] - eta[0] * (eta[0] * pv_i[1] + eta[1] * pv_i[2])/pow(ETA,2); 
-	// pv_b[2] = pv_i[2] - eta[1] * (eta[0] * pv_i[1] + eta[1] * pv_i[2])/pow(ETA,2);
+	pv_g[3] = pv_i[3] /*+ r0 * c0 * (eta[0] * pv_i[1] + eta[1] * pv_i[2])/ETA*/;
+	pv_g[0] = pv_i[0];
+	pv_g[1] = pv_i[1] - 2 * eta[0] * (eta[0] * pv_i[1] + eta[1] * pv_i[2])/pow(ETA,2); 
+	pv_g[2] = pv_i[2] - 2 * eta[1] * (eta[0] * pv_i[1] + eta[1] * pv_i[2])/pow(ETA,2);
 
 	// for (int n = 0; n<4; n++)
 	// {
 	// 	pv_g[n] = 2* pv_b[n] - pv_i[n];		// Extrapolate to the ghost cell
 	// }
 
-	// inviscidFlowField.getDensity().getScalar(i,j) = pv_g[0];	// rho
-	// inviscidFlowField.getVelocity().getVector(i,j)[0] = pv_g[1];
-	// inviscidFlowField.getVelocity().getVector(i,j)[1] = pv_g[2];
-	// inviscidFlowField.getPressure().getScalar(i,j) = pv_g[3];
+	inviscidFlowField.getDensity().getScalar(i,j) = pv_g[0];	// rho
+	inviscidFlowField.getVelocity().getVector(i,j)[0] = pv_g[1];
+	inviscidFlowField.getVelocity().getVector(i,j)[1] = pv_g[2];
+	inviscidFlowField.getPressure().getScalar(i,j) = pv_g[3];
 
-	inviscidFlowField.getDensity().getScalar(i,j) = inviscidFlowField.getDensity().getScalar(i,j+1);	// rho
-	inviscidFlowField.getVelocity().getVector(i,j)[0] = inviscidFlowField.getVelocity().getVector(i,j+1)[0];
-	inviscidFlowField.getVelocity().getVector(i,j)[1] = -inviscidFlowField.getVelocity().getVector(i,j+1)[1];
-	inviscidFlowField.getPressure().getScalar(i,j) = inviscidFlowField.getPressure().getScalar(i,j+1);
+	// inviscidFlowField.getDensity().getScalar(i,j) = inviscidFlowField.getDensity().getScalar(i,j+1);	// rho
+	// inviscidFlowField.getVelocity().getVector(i,j)[0] = inviscidFlowField.getVelocity().getVector(i,j+1)[0];
+	// inviscidFlowField.getVelocity().getVector(i,j)[1] = -inviscidFlowField.getVelocity().getVector(i,j+1)[1];
+	// inviscidFlowField.getPressure().getScalar(i,j) = inviscidFlowField.getPressure().getScalar(i,j+1);
 }
 
 void WallBoundaryConditionStencil::applyTopWall    ( InviscidFlowField & inviscidFlowField, int i, int j )

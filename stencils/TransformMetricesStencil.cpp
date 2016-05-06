@@ -27,8 +27,8 @@ void TransformMetricesStencil::apply ( InviscidFlowField & inviscidFlowField, in
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;
 
@@ -57,8 +57,8 @@ void TransformMetricesStencil::applyLeftWall ( InviscidFlowField & inviscidFlowF
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;
 }
@@ -81,8 +81,8 @@ void TransformMetricesStencil::applyRightWall ( InviscidFlowField & inviscidFlow
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;;
 }
@@ -105,8 +105,8 @@ void TransformMetricesStencil::applyBottomWall ( InviscidFlowField & inviscidFlo
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;
 
@@ -130,8 +130,8 @@ void TransformMetricesStencil::applyTopWall ( InviscidFlowField & inviscidFlowFi
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;
 }

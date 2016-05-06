@@ -11,6 +11,9 @@
 #include <fstream>
 #include <sstream>
 #include <array>
+#include <numeric>
+#include <algorithm>
+#include <vector>
 
 /** Stencil for writting point coordinate on the physics domain
  *
@@ -18,7 +21,7 @@
 class PointCoordinateStencil : public FieldStencil<InviscidFlowField>, public BoundaryStencil<InviscidFlowField> {
 	private:
       int sizeX, sizeY;
-      std::array<double,2> point_out,point_mid,point_in;
+      std::array<FLOAT,2> point_mid,point_in,point_out;
 	public:
 		 /** Constructor
          * @moulin parameters Parameters of the problem
@@ -43,7 +46,7 @@ class PointCoordinateStencil : public FieldStencil<InviscidFlowField>, public Bo
       void applyFrontWall ( InviscidFlowField & inviscidFlowField, int i, int j, int k);
       void applyBackWall ( InviscidFlowField & inviscidFlowField, int i, int j, int k);
 
-      void extrapolatePoint2D(std::array<double,2> point_mid, std::array<double,2> point_in);
+      std::array<double,2> MirrorPoint2D(std::array<double,2> point1_on_wall, std::array<double,2> point2_on_wall,std::array<double,2> point_in);
 };
 
 
