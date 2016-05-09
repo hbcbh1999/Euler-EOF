@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
-    <flow Re="0" Ma="1.5" HeatCapacityRatio="1.4"/>
+    <flow Re="0" Ma="2" HeatCapacityRatio="1.4"/>
     <!-- TODO: MACH -->
     <simulation finalTime="10.0" >
         <type>inviscid</type>
@@ -11,8 +11,8 @@
     <solver gamma="0.5" />
     <geometry
       dim="2"
-      lengthX="120" lengthY="75" lengthZ="1.0"
-      sizeX="120" sizeY="75" sizeZ="1"
+      lengthX="240" lengthY="150" lengthZ="1.0"
+      sizeX="240" sizeY="150" sizeZ="1"
       stretchX="false" stretchY="false" stretchZ="false"
     >
       <mesh>uniform</mesh>

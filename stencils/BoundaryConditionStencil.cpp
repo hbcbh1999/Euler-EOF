@@ -79,7 +79,7 @@ void InletBoundaryConditionStencil::applyLeftWall   ( InviscidFlowField & invisc
 	inviscidFlowField.getDensity().getScalar(i,j) = 1.0;	// rho
 	inviscidFlowField.getVelocity().getVector(i,j)[0] = FreeStreamVelocity[0];
 	inviscidFlowField.getVelocity().getVector(i,j)[1] = FreeStreamVelocity[1];	
-	inviscidFlowField.getPressure().getScalar(i,j) = 1.0;
+	inviscidFlowField.getPressure().getScalar(i,j) = 1.0/HeatCapacityRatio;
 	// }
 	// else
 	// {
@@ -155,10 +155,10 @@ void WallBoundaryConditionStencil::applyBottomWall (
 	pv_i[1] = inviscidFlowField.getVelocity().getVector(i,j+1)[0];
 	pv_i[2] = inviscidFlowField.getVelocity().getVector(i,j+1)[1];
 	pv_i[3] = inviscidFlowField.getPressure().getScalar(i,j+1);
-	// Initially compute wall primative variables by linearization
+	// // Initially compute wall primative variables by linearization
  
-	FLOAT r0 = 1.0; 
-	FLOAT c0 = 1.0; 
+	// FLOAT r0 = 1.0; 
+	// FLOAT c0 = 1.0; 
 
 	pv_g[3] = pv_i[3] /*+ r0 * c0 * (eta[0] * pv_i[1] + eta[1] * pv_i[2])/ETA*/;
 	pv_g[0] = pv_i[0];

@@ -8,8 +8,8 @@ GodunovStencil::GodunovStencil ( const Parameters & parameters ) : FieldStencil<
 
 void GodunovStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j)
 {
-	FLOAT dtdx = 0.025;
-	FLOAT dtdy = 0.025;
+	FLOAT dtdx = 0.02;
+	FLOAT dtdy = 0.02;
 	if (i == 1 || j == 1)
 	{
 

@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <math.h>
+#include <array>
 #include "ComputePosition2D.cpp"
 
 int main(int argc, char const *argv[])
@@ -31,12 +32,12 @@ int main(int argc, char const *argv[])
 			// // store cell type
 			// cellType << 9 << "\n";
 			// Store grid point	
-			GridPoint2D point0 = ComputePosition2D(i+1,j+1,input1);
+			std::array<double,2> point0 = ComputePosition2D(i+1,j+1,input1);
 
-			pointData << point0.x << " " << point0.y << " " << 0 << "\n";
-			// pointData << point1.x << " " << point1.y << " " << 0 << "\n";
-			// pointData << point2.x << " " << point2.y << " " << 0 << "\n";
-			// pointData << point3.x << " " << point3.y << " " << 0 << "\n";
+			pointData << point0[0] << " " << point0[1] << " " << 0 << "\n";
+			// pointData << point1[0] << " " << point1[1] << " " << 0 << "\n";
+			// pointData << point2[0] << " " << point2[1] << " " << 0 << "\n";
+			// pointData << point3[0] << " " << point3[1] << " " << 0 << "\n";
 		}
 	}
  

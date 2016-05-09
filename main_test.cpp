@@ -80,7 +80,7 @@ int main (int argc, char *argv[]) {
     int OutputTimes = 1;
 
 
-    while (timeSteps < 500)
+    while (timeSteps < 15000)
     {
         ((InviscidSimulation*) simulation)->inviscid_solveTimeSteps();
     // // //     time += parameters.timestep.dt;
