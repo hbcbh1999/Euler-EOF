@@ -76,10 +76,10 @@ void InletBoundaryConditionStencil::applyLeftWall   ( InviscidFlowField & invisc
 
 		// // // *************************************** Debug
 	// if (j>25 && j < 50){
-	inviscidFlowField.getDensity().getScalar(i,j) = 1.0;	// rho
+	inviscidFlowField.getDensity().getScalar(i,j) = 1;	// rho
 	inviscidFlowField.getVelocity().getVector(i,j)[0] = FreeStreamVelocity[0];
 	inviscidFlowField.getVelocity().getVector(i,j)[1] = FreeStreamVelocity[1];	
-	inviscidFlowField.getPressure().getScalar(i,j) = 1.0/HeatCapacityRatio;
+	inviscidFlowField.getPressure().getScalar(i,j) = 1/HeatCapacityRatio;
 	// }
 	// else
 	// {

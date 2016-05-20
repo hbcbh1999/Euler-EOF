@@ -18,10 +18,11 @@
 class VTKGeoStencil : public FieldStencil<InviscidFlowField> {
     private:
         // bool _inviscid;
-        std::stringstream pointData,cellData,cellType,XiValue,EtaValue,JValue,PointCoordinateValue;
+        std::stringstream pointData,cellData,cellType,pressureValue;
         Meshsize* _meshsize;
         int _dim;
         int cellRefNum;
+        int sizeX, sizeY;
         std::string _prefix;
     public:
 

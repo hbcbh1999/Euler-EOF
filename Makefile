@@ -32,7 +32,6 @@ stencils/TransformMetricesStencil.o \
 stencils/InitialConditionStencil.o \
 stencils/DomainTransformStencil.o \
 stencils/BoundaryConditionStencil.o \
-stencils/RoeStencil.o \
 stencils/SMaxStencil.o \
 stencils/GodunovStencil.o\
 stencils/RecoverStencil.o\

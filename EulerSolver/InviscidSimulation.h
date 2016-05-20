@@ -45,8 +45,8 @@ protected:
 	FieldIterator<InviscidFlowField> _sMaxIterator;
 	GlobalBoundaryIterator<InviscidFlowField> _sMaxBoundaryIterator;
 
-  RoeStencil _roeStencil;
-  FieldIterator<InviscidFlowField> _roeIterator;
+  // RoeStencil _roeStencil;
+  // FieldIterator<InviscidFlowField> _roeIterator;
 
   GodunovStencil _godunovStencil;
   FieldIterator<InviscidFlowField> _godunovIterator;
@@ -90,8 +90,8 @@ public:
         parameters,_sMaxStencil),
   _sMaxBoundaryIterator(_inviscidFlowField, parameters, _sMaxStencil),
 
-  _roeStencil(parameters),
-	_roeIterator(_inviscidFlowField, parameters,_roeStencil),
+ //  _roeStencil(parameters),
+	// _roeIterator(_inviscidFlowField, parameters,_roeStencil),
 
   _godunovStencil(parameters),
   _godunovIterator(_inviscidFlowField, parameters, _godunovStencil),
@@ -105,7 +105,7 @@ public:
   _debugBoundaryIterator(_inviscidFlowField, parameters, _debugStencil),
 // /*********************** Debug*********************** /
   _vtkGeoStencil(parameters),
-  _vtkGeoIterator(_inviscidFlowField,parameters,_godunovStencil)
+  _vtkGeoIterator(_inviscidFlowField,parameters,_vtkGeoStencil)
 
 	{}
 	// void applyTransformMetricesed(){
@@ -127,7 +127,7 @@ public:
   {
     _domainTransformIterator.iterate();
     _domainTransformBoundaryIterator.iterate();
-    _roeIterator.iterate();
+    // _roeIterator.iterate();
    // //  // inviscid_setTimeStep();
   	_godunovIterator.iterate(); 
     _recoverIterator.iterate();

@@ -80,7 +80,7 @@ int main (int argc, char *argv[]) {
     int OutputTimes = 1;
 
 
-    while (timeSteps < 15000)
+    while (timeSteps < 5000)
     {
         ((InviscidSimulation*) simulation)->inviscid_solveTimeSteps();
     // // //     time += parameters.timestep.dt;
@@ -90,8 +90,8 @@ int main (int argc, char *argv[]) {
     // ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
     }
 
-    ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
- 
+    ((InviscidSimulation*) simulation)->plotGeoVTK(timeSteps);
+  // ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
     delete simulation; simulation=NULL;
     delete flowField;  flowField= NULL;
 

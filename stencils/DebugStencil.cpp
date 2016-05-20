@@ -380,20 +380,20 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << eta1ValueOutput.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
 
-	vtkFile << "Density_Value" << "\n";
-	vtkFile << DensityValueOutput.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
+	// vtkFile << "Density_Value" << "\n";
+	// vtkFile << DensityValueOutput.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
 
-	vtkFile << "u_Value" << "\n";
-	vtkFile << uValueOutput.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
-	vtkFile << "v_Value" << "\n";
-	vtkFile << vValueOutput.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
+	// vtkFile << "u_Value" << "\n";
+	// vtkFile << uValueOutput.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "v_Value" << "\n";
+	// vtkFile << vValueOutput.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
 
-	vtkFile << "pressure_Value" << "\n";
-	vtkFile << PressureValueOutput.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "pressure_Value" << "\n";
+	// vtkFile << PressureValueOutput.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 	
 
 	// vtkFile << "Transfer_Density_Value" << "\n";
