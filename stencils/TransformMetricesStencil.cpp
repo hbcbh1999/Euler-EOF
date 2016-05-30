@@ -19,16 +19,16 @@ void TransformMetricesStencil::apply ( InviscidFlowField & inviscidFlowField, in
 
 		// TODO: Add time derivatives
 		FLOAT x_xi = point2_x - point3_x;
-		FLOAT x_eta = point2_y - point3_y;
-		FLOAT y_xi = point2_x - point1_x;
+		FLOAT y_xi = point2_y - point3_y;
+		FLOAT x_eta = point2_x - point1_x;
 		FLOAT y_eta = point2_y - point1_y;
 		
 		// TODO: Store
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;
 
@@ -49,16 +49,16 @@ void TransformMetricesStencil::applyLeftWall ( InviscidFlowField & inviscidFlowF
 
 		// TODO: Add time derivatives
 		FLOAT x_xi = point2_x - point3_x;
-		FLOAT x_eta = point2_y - point3_y;
-		FLOAT y_xi = point2_x - point1_x;
+		FLOAT y_xi = point2_y - point3_y;
+		FLOAT x_eta = point2_x - point1_x;
 		FLOAT y_eta = point2_y - point1_y;
 		
 		// TODO: Store
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;
 }
@@ -73,18 +73,18 @@ void TransformMetricesStencil::applyRightWall ( InviscidFlowField & inviscidFlow
 
 		// TODO: Add time derivatives
 		FLOAT x_xi = point2_x - point3_x;
-		FLOAT x_eta = point2_y - point3_y;
-		FLOAT y_xi = point2_x - point1_x;
+		FLOAT y_xi = point2_y - point3_y;
+		FLOAT x_eta = point2_x - point1_x;
 		FLOAT y_eta = point2_y - point1_y;
 		
 		// TODO: Store
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
-		inviscidFlowField.getJ().getScalar(i,j) = J;;
+		inviscidFlowField.getJ().getScalar(i,j) = J;
 }
 void TransformMetricesStencil::applyBottomWall ( InviscidFlowField & inviscidFlowField, int i, int j){
 	
@@ -97,16 +97,16 @@ void TransformMetricesStencil::applyBottomWall ( InviscidFlowField & inviscidFlo
 
 		// TODO: Add time derivatives
 		FLOAT x_xi = point2_x - point3_x;
-		FLOAT x_eta = point2_y - point3_y;
-		FLOAT y_xi = point2_x - point1_x;
+		FLOAT y_xi = point2_y - point3_y;
+		FLOAT x_eta = point2_x - point1_x;
 		FLOAT y_eta = point2_y - point1_y;
 		
 		// TODO: Store
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;
 
@@ -122,16 +122,16 @@ void TransformMetricesStencil::applyTopWall ( InviscidFlowField & inviscidFlowFi
 
 		// TODO: Add time derivatives
 		FLOAT x_xi = point2_x - point3_x;
-		FLOAT x_eta = point2_y - point3_y;
-		FLOAT y_xi = point2_x - point1_x;
+		FLOAT y_xi = point2_y - point3_y;
+		FLOAT x_eta = point2_x - point1_x;
 		FLOAT y_eta = point2_y - point1_y;
 		
 		// TODO: Store
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
-		inviscidFlowField.getXi().getVector(i, j)[1] = -y_xi/J;
-		inviscidFlowField.getEta().getVector(i, j)[0] = -x_eta/J;
+		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
+		inviscidFlowField.getEta().getVector(i, j)[0] = -y_xi/J;
 		inviscidFlowField.getEta().getVector(i, j)[1] = x_xi/J;
 		inviscidFlowField.getJ().getScalar(i,j) = J;
 }

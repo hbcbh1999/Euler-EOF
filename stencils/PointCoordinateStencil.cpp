@@ -83,6 +83,17 @@ void PointCoordinateStencil::applyRightWall ( InviscidFlowField & inviscidFlowFi
 		inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = 2.0 * point_mid[0] - point_in[0];
 		inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = 2.0 * point_mid[1] - point_in[1];
 	}
+	else if ( j == 1)
+	{
+		std::array<FLOAT,2> point_a = ComputePosition2D(i-1,j+1,input1);
+		std::array<FLOAT,2> point_b = ComputePosition2D(i-1,j,input1);
+		std::array<FLOAT,2> point_c = ComputePosition2D(i-2,j,input1);
+
+		std::array<FLOAT,2> point_mirror = MirrorPoint2D(point_a,point_b,point_c);
+
+		inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = point_mirror[0];
+		inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = point_mirror[1];
+	} 
 	else
 	{
 		std::array<FLOAT,2> point_a = ComputePosition2D(i-1,j-1,input1);
@@ -101,7 +112,19 @@ void PointCoordinateStencil::applyTopWall( InviscidFlowField & inviscidFlowField
 	if (i==0 || i == sizeX+2 )
 	{
 
-	}else
+	}
+	else if (i == sizeX +1)
+	{
+		std::array<FLOAT,2> point_a = ComputePosition2D(i-1,j-1,input1);
+		std::array<FLOAT,2> point_b = ComputePosition2D(i,j-1,input1);
+		std::array<FLOAT,2> point_c = ComputePosition2D(i,j-2,input1);
+
+		std::array<FLOAT,2> point_mirror = MirrorPoint2D(point_a,point_b,point_c);
+
+		inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = point_mirror[0];
+		inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = point_mirror[1];	
+	}
+	else
 	{
 		std::array<FLOAT,2> point_a = ComputePosition2D(i+1,j-1,input1);
 		std::array<FLOAT,2> point_b = ComputePosition2D(i,j-1,input1);
@@ -117,31 +140,31 @@ void PointCoordinateStencil::applyBottomWall ( InviscidFlowField & inviscidFlowF
 {
 	if (i==0)
 	{
-		point_mid = ComputePosition2D(i+1,j+1,input1);
-		point_in = ComputePosition2D(i+2,j+2,input1);
+		// point_mid = ComputePosition2D(i+1,j+1,input1);
+		// point_in = ComputePosition2D(i+2,j+2,input1);
 
-		inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = 2.0 * point_mid[0] - point_in[0];
-		inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = 2.0 * point_mid[1] - point_in[1];
+		// inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = 2.0 * point_mid[0] - point_in[0];
+		// inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = 2.0 * point_mid[1] - point_in[1];
 
 	}
-	else if (i == 1)
-	{
-		std::array<FLOAT,2> point_a = ComputePosition2D(i+1,j+1,input1);
-		std::array<FLOAT,2> point_b = ComputePosition2D(i,j+1,input1);
-		std::array<FLOAT,2> point_c = ComputePosition2D(i,j+2,input1);
+	// else if (i == 1)
+	// {
+	// 	// std::array<FLOAT,2> point_a = ComputePosition2D(i+1,j+1,input1);
+	// 	// std::array<FLOAT,2> point_b = ComputePosition2D(i,j+1,input1);
+	// 	// std::array<FLOAT,2> point_c = ComputePosition2D(i,j+2,input1);
 
-		std::array<FLOAT,2> point_mirror = MirrorPoint2D(point_a,point_b,point_c);
+	// 	// std::array<FLOAT,2> point_mirror = MirrorPoint2D(point_a,point_b,point_c);
 
-		inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = point_mirror[0];
-		inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = point_mirror[1];
-	}
+	// 	// inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = point_mirror[0];
+	// 	// inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = point_mirror[1];
+	// }
 	else if (i==sizeX+2)
 	{
-		point_mid = ComputePosition2D(i-1,j+1,input1);
-		point_in = ComputePosition2D(i-2,j+2,input1);
+		// point_mid = ComputePosition2D(i-1,j+1,input1);
+		// point_in = ComputePosition2D(i-2,j+2,input1);
 
-		inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = 2.0 * point_mid[0] - point_in[0];
-		inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = 2.0 * point_mid[1] - point_in[1];
+		// inviscidFlowField.getPointCoordinate().getVector(i, j)[0] = 2.0 * point_mid[0] - point_in[0];
+		// inviscidFlowField.getPointCoordinate().getVector(i, j)[1] = 2.0 * point_mid[1] - point_in[1];
 	}
 	else
 	{

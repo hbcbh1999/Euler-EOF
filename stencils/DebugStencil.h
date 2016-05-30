@@ -15,44 +15,44 @@ class DebugStencil : public FieldStencil<InviscidFlowField>, public BoundarySten
     private:
         int sizeX, sizeY;
 
-        FLOAT DensityValue[243][153];
-        FLOAT uValue[243][153];
-        FLOAT vValue[243][153];
-        FLOAT PressureValue[243][153];
+        FLOAT DensityValue[143][53];
+        FLOAT uValue[143][53];
+        FLOAT vValue[143][53];
+        FLOAT PressureValue[143][53];
         
-        FLOAT JValue[243][153];
-        FLOAT xi0Value[243][153];
-        FLOAT xi1Value[243][153];
-        FLOAT eta0Value[243][153];
-        FLOAT eta1Value[243][153];
+        FLOAT JValue[143][53];
+        FLOAT xi0Value[143][53];
+        FLOAT xi1Value[143][53];
+        FLOAT eta0Value[143][53];
+        FLOAT eta1Value[143][53];
 
-        FLOAT XValue[243][153];
-        FLOAT YValue[243][153];
+        FLOAT XValue[143][53];
+        FLOAT YValue[143][53];
         
-        FLOAT U0[243][153];
-        FLOAT U1[243][153];
-        FLOAT U2[243][153];
-        FLOAT U3[243][153];
+        FLOAT U0[143][53];
+        FLOAT U1[143][53];
+        FLOAT U2[143][53];
+        FLOAT U3[143][53];
 
-        FLOAT F0[243][153];
-        FLOAT F1[243][153];
-        FLOAT F2[243][153];
-        FLOAT F3[243][153];
+        FLOAT F0[143][53];
+        FLOAT F1[143][53];
+        FLOAT F2[143][53];
+        FLOAT F3[143][53];
 
-        FLOAT G0[243][153];
-        FLOAT G1[243][153];
-        FLOAT G2[243][153];
-        FLOAT G3[243][153];
+        FLOAT G0[143][53];
+        FLOAT G1[143][53];
+        FLOAT G2[143][53];
+        FLOAT G3[143][53];
 
-        FLOAT Fmid0[243][153];
-        FLOAT Fmid1[243][153];
-        FLOAT Fmid2[243][153];
-        FLOAT Fmid3[243][153];
+        FLOAT Fmid0[143][53];
+        FLOAT Fmid1[143][53];
+        FLOAT Fmid2[143][53];
+        FLOAT Fmid3[143][53];
 
-        FLOAT Gmid0[243][153];
-        FLOAT Gmid1[243][153];
-        FLOAT Gmid2[243][153];
-        FLOAT Gmid3[243][153];
+        FLOAT Gmid0[143][53];
+        FLOAT Gmid1[143][53];
+        FLOAT Gmid2[143][53];
+        FLOAT Gmid3[143][53];
 
     public:
 

@@ -101,8 +101,8 @@ void DomainTransformStencil::ConstructUFGH2D( InviscidFlowField & inviscidFlowFi
     // Apply domain transformation:
     for (int n = 0; n<4; n++)
     {
-        inviscidFlowField.getUhat().getFlux(i,j)[n] =  U[n]/*/J*/ ;
-        inviscidFlowField.getFhat().getFlux(i,j)[n] = /*(xi[0] **/ F[n] /*+ xi[1] * G[n])/J*/;
-        inviscidFlowField.getGhat().getFlux(i,j)[n] = /*(eta[0] * F[n] + eta[1] **/ G[n]/*)/J*/;
+        inviscidFlowField.getUhat().getFlux(i,j)[n] =  U[n]*J ;
+        inviscidFlowField.getFhat().getFlux(i,j)[n] = (xi[0] * F[n] + xi[1] * G[n])*J;
+        inviscidFlowField.getGhat().getFlux(i,j)[n] = (eta[0] * F[n] + eta[1] * G[n])*J;
     }
 }

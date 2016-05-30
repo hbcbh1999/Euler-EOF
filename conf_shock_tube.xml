@@ -11,8 +11,8 @@
     <solver gamma="0.5" />
     <geometry
       dim="2"
-      lengthX="5" lengthY="1" lengthZ="1.0"
-      sizeX="100" sizeY="20" sizeZ="1"
+      lengthX="240" lengthY="90" lengthZ="1.0"
+      sizeX="240" sizeY="90" sizeZ="1"
       stretchX="false" stretchY="false" stretchZ="false"
     >
       <mesh>uniform</mesh>

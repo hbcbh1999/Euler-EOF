@@ -9,7 +9,7 @@ void RecoverStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j
 	for (int n = 0; n < 4; ++n)
 	{
 		Uhat[n] = inviscidFlowField.getUhat().getFlux(i,j)[n];
-		U[n] = Uhat[n]/**J*/;
+		U[n] = Uhat[n]/J;
 	}
 	
 	inviscidFlowField.getDensity().getScalar(i,j) = U[0];
