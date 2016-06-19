@@ -75,28 +75,28 @@ void DomainTransformStencil::ConstructUFGH2D( InviscidFlowField & inviscidFlowFi
     eta[0] = inviscidFlowField.getEta().getVector(i,j)[0];
     eta[1] = inviscidFlowField.getEta().getVector(i,j)[1];
 
-    FLOAT pv[4];    // Primative variables (rho, u, v, p)
+    FLOAT rho, u, v, p;    // Primative variables (rho, u, v, p)
 
-    pv[0] = inviscidFlowField.getDensity().getScalar(i,j);
-    pv[1] = inviscidFlowField.getVelocity().getVector(i,j)[0];
-    pv[2] = inviscidFlowField.getVelocity().getVector(i,j)[1];
-    pv[3] = inviscidFlowField.getPressure().getScalar(i,j);
+    rho = inviscidFlowField.getDensity().getScalar(i,j);
+    u = inviscidFlowField.getVelocity().getVector(i,j)[0];
+    v = inviscidFlowField.getVelocity().getVector(i,j)[1];
+    p = inviscidFlowField.getPressure().getScalar(i,j);
 
     FLOAT U[4],F[4],G[4]; 
-    U[0] = pv[0];   
-    U[1] = pv[0] * pv[1];     
-    U[2] = pv[0] * pv[2];
-    U[3] = 0.5 * pv[0] * (pow(pv[1], 2) + pow(pv[2], 2)) + pv[3]/(HeatCapacityRatio - 1);
+    U[0] = rho;   
+    U[1] = rho * u;     
+    U[2] = rho * v;
+    U[3] = 0.5 * rho * (pow(u, 2) + pow(v, 2)) + p/(HeatCapacityRatio - 1);
 
-    F[0] = U[0] * pv[1];
-    F[1] = U[1] * pv[1] + pv[3];
-    F[2] = U[2] * pv[1];
-    F[3] = (U[3] + pv[3]) * pv[1];
+    F[0] = U[0] * u;
+    F[1] = U[1] * u + p;
+    F[2] = U[2] * u;
+    F[3] = (U[3] + p) * u;
 
-    G[0] = U[0] * pv[2];
-    G[1] = U[1] * pv[2];
-    G[2] = U[2] * pv[2] + pv[3];
-    G[3] = (U[3] + pv[3]) * pv[2];
+    G[0] = U[0] * v;
+    G[1] = U[1] * v;
+    G[2] = U[2] * v + p;
+    G[3] = (U[3] + p) * v;
 
     // Apply domain transformation:
     for (int n = 0; n<4; n++)

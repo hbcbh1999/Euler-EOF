@@ -25,6 +25,12 @@ void TransformMetricesStencil::apply ( InviscidFlowField & inviscidFlowField, in
 		
 		// TODO: Store
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
+		// if (j == 51)
+		// {
+		// 	std::cout << i << ": " << point2_x << ", " << point2_y << "\n";
+		// 	std::cout << i << ": " << point3_x << ", " << point3_y << "\n";
+		// 	std::cout << i << ": " << point2_x << ", " << point1_y << "\n" << "\n";
+		// }
 
 		inviscidFlowField.getXi().getVector(i, j)[0] = y_eta/J;
 		inviscidFlowField.getXi().getVector(i, j)[1] = -x_eta/J;
@@ -125,7 +131,6 @@ void TransformMetricesStencil::applyTopWall ( InviscidFlowField & inviscidFlowFi
 		FLOAT y_xi = point2_y - point3_y;
 		FLOAT x_eta = point2_x - point1_x;
 		FLOAT y_eta = point2_y - point1_y;
-		
 		// TODO: Store
 		FLOAT J = x_xi*y_eta - x_eta*y_xi; // TODO: Change the notation
 

@@ -31,9 +31,11 @@ stencils/PointCoordinateStencil.o \
 stencils/TransformMetricesStencil.o \
 stencils/InitialConditionStencil.o \
 stencils/DomainTransformStencil.o \
+stencils/ReconstructStencil.o \
+stencils/HalfTimeStepUpdateStencil.o \
 stencils/BoundaryConditionStencil.o \
 stencils/SMaxStencil.o \
-stencils/GodunovStencil.o\
+stencils/MUSCLStencil.o\
 stencils/RecoverStencil.o\
 stencils/DebugStencil.o\
 stencils/VTKGeoStencil.o\

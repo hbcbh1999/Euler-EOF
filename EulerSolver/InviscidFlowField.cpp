@@ -24,6 +24,28 @@ InviscidFlowField::InviscidFlowField(const Parameters & parameters):
     _H(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
                       FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
 
+
+
+    _Uhat_l(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
+                      FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+    _Uhat_r(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
+                      FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+
+    _Uhat_b(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
+                      FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+    _Uhat_t(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
+                      FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+
+
+    _Fhat_l(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
+                      FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+    _Fhat_r(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
+                      FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+    _Ghat_b(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
+                      FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+    _Ghat_t(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
+                      FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+
     _Uhat(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
                       FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
     _Fhat(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
@@ -86,6 +108,51 @@ InviscidFlowField::InviscidFlowField(const Parameters & parameters):
   {
     return _H;
   }
+
+
+  FluxField & InviscidFlowField::getUhatLeft()
+  {
+    return _Uhat_l;
+  }
+
+  FluxField & InviscidFlowField::getUhatRight()
+  {
+    return _Uhat_r;
+  }
+
+  FluxField & InviscidFlowField::getUhatBottom()
+  {
+    return _Uhat_b;
+  }
+
+  FluxField & InviscidFlowField::getUhatTop()
+  {
+    return _Uhat_t;
+  }
+
+
+
+  FluxField & InviscidFlowField::getFhatLeft()
+  {
+    return _Fhat_l;
+  }
+
+  FluxField & InviscidFlowField::getFhatRight()
+  {
+    return _Fhat_r;
+  }
+
+  FluxField & InviscidFlowField::getGhatBottom()
+  {
+    return _Ghat_b;
+  }
+
+  FluxField & InviscidFlowField::getGhatTop()
+  {
+    return _Ghat_t;
+  }
+
+
 
   FluxField & InviscidFlowField::getUhat()
   {

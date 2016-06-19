@@ -10,9 +10,12 @@
 #include "../stencils/InitialConditionStencil.h"
 #include "../stencils/DomainTransformStencil.h"
 #include "../stencils/BoundaryConditionStencil.h"
+#include "../stencils/ReconstructStencil.h"
+#include "../stencils/HalfTimeStepUpdateStencil.h"
 #include "../stencils/RoeStencil.h"
 #include "../stencils/SMaxStencil.h"
-#include "../stencils/GodunovStencil.h"
+// #include "../stencils/GodunovStencil.h"
+#include "../stencils/MUSCLStencil.h"
 #include "../stencils/RecoverStencil.h"
 #include "../stencils/VTKGeoStencil.h"
 #include "../stencils/DebugStencil.h"
@@ -41,6 +44,13 @@ protected:
   InviscidGlobalBoundaryFactory _inviscidGlobalBoundaryFactory;
   GlobalBoundaryIterator<InviscidFlowField> _boundaryConditionIterator;
 
+  ReconstructStencil _reconstructStencil;
+  FieldIterator<InviscidFlowField> _reconstructIterator;
+  GlobalBoundaryIterator<InviscidFlowField> _reconstructBoundaryIterator;
+
+  HalfTimeStepUpdateStencil _halfTimeStepUpdateStencil;
+  FieldIterator<InviscidFlowField> _halfTimeStepUpdateIterator;
+
   SMaxStencil _sMaxStencil;
 	FieldIterator<InviscidFlowField> _sMaxIterator;
 	GlobalBoundaryIterator<InviscidFlowField> _sMaxBoundaryIterator;
@@ -48,8 +58,11 @@ protected:
   // RoeStencil _roeStencil;
   // FieldIterator<InviscidFlowField> _roeIterator;
 
-  GodunovStencil _godunovStencil;
-  FieldIterator<InviscidFlowField> _godunovIterator;
+  // GodunovStencil _godunovStencil;
+  // FieldIterator<InviscidFlowField> _godunovIterator;
+
+  MUSCLStencil _musclStencil;
+  FieldIterator<InviscidFlowField> _musclIterator;
 
   RecoverStencil _recoverStencil;
   FieldIterator<InviscidFlowField> _recoverIterator;
@@ -73,17 +86,24 @@ public:
   _transformMetricesStencil(parameters),
 	_transformMetricesIterator(_inviscidFlowField,
         parameters,_transformMetricesStencil),
-  _transformMetricesBoundaryIterator(_inviscidFlowField, parameters, _transformMetricesStencil,1,0),
+  _transformMetricesBoundaryIterator(_inviscidFlowField, parameters, _transformMetricesStencil),
 
   _initialConditionStencil(parameters),
   _initialConditionIterator(_inviscidFlowField, parameters, _initialConditionStencil),
 
   _domainTransformStencil(parameters),
   _domainTransformIterator(_inviscidFlowField,parameters,_domainTransformStencil),
-  _domainTransformBoundaryIterator(_inviscidFlowField,parameters,_domainTransformStencil),
+  _domainTransformBoundaryIterator(_inviscidFlowField,parameters,_domainTransformStencil,1,0),
 
   _inviscidGlobalBoundaryFactory(parameters),
 	_boundaryConditionIterator(_inviscidGlobalBoundaryFactory.getUFGHGlobalBoundaryIterator(_inviscidFlowField)),
+
+  _reconstructStencil(parameters),
+  _reconstructIterator(_inviscidFlowField,parameters,_reconstructStencil),
+  _reconstructBoundaryIterator(_inviscidFlowField,parameters,_reconstructStencil,1,0),
+
+  _halfTimeStepUpdateStencil(parameters),
+  _halfTimeStepUpdateIterator(_inviscidFlowField,parameters, _halfTimeStepUpdateStencil),
 
   _sMaxStencil(parameters),
   _sMaxIterator(_inviscidFlowField,
@@ -93,8 +113,11 @@ public:
  //  _roeStencil(parameters),
 	// _roeIterator(_inviscidFlowField, parameters,_roeStencil),
 
-  _godunovStencil(parameters),
-  _godunovIterator(_inviscidFlowField, parameters, _godunovStencil),
+  // _godunovStencil(parameters),
+  // _godunovIterator(_inviscidFlowField, parameters, _godunovStencil),
+
+  _musclStencil(parameters),
+  _musclIterator(_inviscidFlowField, parameters, _musclStencil),
 
   _recoverStencil(parameters),
   _recoverIterator(_inviscidFlowField, parameters, _recoverStencil),
@@ -108,11 +131,7 @@ public:
   _vtkGeoIterator(_inviscidFlowField,parameters,_vtkGeoStencil)
 
 	{}
-	// void applyTransformMetricesed(){
-	// 	_pointCoordinateIterator.iterate();
-	// 	_transformMetricesIterator.iterate();
-	// 	_transformMetricesBoundaryIterator.iterate();
-	// }
+
   void inviscid_initialization()
   {
     _initialConditionIterator.iterate();
@@ -127,11 +146,17 @@ public:
   {
     _domainTransformIterator.iterate();
     _domainTransformBoundaryIterator.iterate();
-    // _roeIterator.iterate();
-   // //  // inviscid_setTimeStep();
-  	_godunovIterator.iterate(); 
+   // // /*** MUSCL scheme ***/
+    _reconstructIterator.iterate();
+    _reconstructBoundaryIterator.iterate();
+    _halfTimeStepUpdateIterator.iterate();
+    _musclIterator.iterate();
+
+   // // //  // _roeIterator.iterate();
+   // // // // //  // inviscid_setTimeStep();
+  	// // // // _godunovIterator.iterate(); 
     _recoverIterator.iterate();
-    _boundaryConditionIterator.iterate();
+    _boundaryConditionIterator.iterate();    
   }
 
   void debugPlot(int timeStep)

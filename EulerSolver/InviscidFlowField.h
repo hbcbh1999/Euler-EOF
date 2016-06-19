@@ -22,6 +22,16 @@ class InviscidFlowField : public FlowField {
         FluxField _F;
         FluxField _G;
         FluxField _H;
+        // Reconstruct Flux
+        FluxField _Uhat_l;
+        FluxField _Uhat_r;
+        FluxField _Uhat_b;
+        FluxField _Uhat_t;
+
+        FluxField _Fhat_l;
+        FluxField _Fhat_r;
+        FluxField _Ghat_b;
+        FluxField _Ghat_t;
 
         FluxField _Uhat;
         FluxField _Fhat;
@@ -52,6 +62,17 @@ class InviscidFlowField : public FlowField {
         FluxField & getF();
         FluxField & getG();
         FluxField & getH();
+
+        FluxField & getUhatLeft();
+        FluxField & getUhatRight();
+        FluxField & getUhatBottom();
+        FluxField & getUhatTop();
+
+        FluxField & getFhatLeft();
+        FluxField & getFhatRight();
+        FluxField & getGhatBottom();
+        FluxField & getGhatTop();
+
         // Transformed Flux
         FluxField & getUhat();
         FluxField & getFhat();

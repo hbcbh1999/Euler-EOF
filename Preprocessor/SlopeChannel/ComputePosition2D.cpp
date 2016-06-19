@@ -45,12 +45,16 @@ std::array<double,2> ComputePosition2D(int i, int j, GridParameter input)
 		if (i <= (input.I1+input.I2))
     	{
     		BottomPoint[0] = input.L1+input.L2-input.L2/2.0*(1.0-input.beta2*(pow(((input.beta2+1.0)/(input.beta2-1.0)),(1.0-2.0*(((input.I2)-(i-input.I1)))/input.I2))-1.0)/(pow(((input.beta2+1.0)/(input.beta2-1.0)),(1.0-2.0*(((input.I2)-(i-input.I1)))/input.I2))+1.0));
-    		BottomPoint[1] = tan(input.delta)*(BottomPoint[0]-input.L1);
+    		// BottomPoint[1] = tan(input.delta)*(BottomPoint[0]-input.L1);
+    		
+		BottomPoint[1] = 0.0;
     	}
 		else if (i > (input.I1+input.I2))
     	{
     		BottomPoint[0] = input.L1+input.L2+input.L3*(1.0-input.beta3*(pow(((input.beta3+1.0)/(input.beta3-1.0)),(1.0-(double(i-input.I1-input.I2))/input.I3))-1.0)/(pow(((input.beta3+1.0)/(input.beta3-1.0)),(1.0-(double(i-input.I1-input.I2))/input.I3))+1.0));
-    		BottomPoint[1] = tan(input.delta)*input.L2;
+    		// BottomPoint[1] = tan(input.delta)*input.L2;
+
+		BottomPoint[1] = 0.0;
     	}
 
 		k_inverse = (TopPoint[0] - BottomPoint[0])/(TopPoint[1]-BottomPoint[1]);

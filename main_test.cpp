@@ -19,9 +19,7 @@ int main (int argc, char *argv[]) {
     MPI_Comm_size(PETSC_COMM_WORLD, &nproc);
     MPI_Comm_rank(PETSC_COMM_WORLD, &rank);
     std::cout << "Rank: " << rank << ", Nproc: " << nproc << std::endl;
-    //----------------------------------------------------
-
-
+    //-------------------------------------------------------
     // read configuration and store information in parameters object
     Configuration configuration(argv[1]);
     Parameters parameters;
@@ -32,6 +30,7 @@ int main (int argc, char *argv[]) {
     Simulation *simulation = NULL;
 
     // initialise simulation
+
     if (parameters.simulation.type=="turbulence")
     {
       // TODO WS2: initialise turbulent flow field and turbulent simulation object
@@ -80,7 +79,7 @@ int main (int argc, char *argv[]) {
     int OutputTimes = 1;
 
 
-    while (timeSteps < 20000)
+    while (timeSteps < 40000)
     {
         ((InviscidSimulation*) simulation)->inviscid_solveTimeSteps();
     // // //     time += parameters.timestep.dt;
@@ -91,7 +90,7 @@ int main (int argc, char *argv[]) {
     }
 
     ((InviscidSimulation*) simulation)->plotGeoVTK(timeSteps);
-  ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
+    ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
     delete simulation; simulation=NULL;
     delete flowField;  flowField= NULL;
 
