@@ -14,7 +14,8 @@ class InitialConditionStencil : public FieldStencil<InviscidFlowField>
     private:
         FLOAT HeatCapacityRatio;
         FLOAT FreeStreamVelocity;
-
+        int sizeX, sizeY;
+        std::string scenario;
     public:
 
         /** Constructor

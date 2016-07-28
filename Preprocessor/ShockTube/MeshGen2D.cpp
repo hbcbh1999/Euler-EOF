@@ -4,18 +4,18 @@
 #include <sstream>
 #include <math.h>
 #include <array>
-#include "ComputePosition2D_test1.cpp"
+#include "ShockTubeMesh.cpp"
 
 int main(int argc, char const *argv[])
 {
 	std::ofstream vtkFile;
-	std::string fileName = "Slope_channel_grid.vtk";
+	std::string fileName = "Shock_tube_grid.vtk";
 	std::stringstream pointData,cellData,cellType;
 	int cellRefNum = 0;
 /*------------------ TEST MANUAL INPUT----------------------*/
 	// node number
-int IM = 105;
-int JM = 60;
+int IM = 100;
+int JM = 10;
 /*-------------------------------------------------------*/
 	// cellwise loop
 	for( int j = 0; j < JM; j++ )
@@ -33,12 +33,9 @@ int JM = 60;
 			// // store cell type
 			// cellType << 9 << "\n";
 			// Store grid point	
-			std::array<double,2> point0 = ComputePosition2D_test1(i+1,j+1,input1);
+			std::array<double,2> point0 = ShockTubeMesh(i+1,j+1,input1);
 
 			pointData << point0[0] << " " << point0[1] << " " << 0 << "\n";
-			// pointData << point1[0] << " " << point1[1] << " " << 0 << "\n";
-			// pointData << point2[0] << " " << point2[1] << " " << 0 << "\n";
-			// pointData << point3[0] << " " << point3[1] << " " << 0 << "\n";
 		}
 	}
  

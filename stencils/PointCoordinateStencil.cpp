@@ -1,6 +1,7 @@
 #include "PointCoordinateStencil.h"
 // #include "../Preprocessor/SlopeChannel/ComputePosition2D_test1.cpp"
 #include "../Preprocessor/ScaleChannel/ComputePosition2D_test1.cpp"
+// #include "../Preprocessor/ShockTube/ComputePosition2D_test1.cpp"
 PointCoordinateStencil::PointCoordinateStencil ( const Parameters & parameters ): FieldStencil<InviscidFlowField> ( parameters ),BoundaryStencil<InviscidFlowField>(parameters) {
 	sizeX = parameters.geometry.sizeX;
 	sizeY = parameters.geometry.sizeY;

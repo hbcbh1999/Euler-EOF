@@ -8,8 +8,8 @@ void MUSCLStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j)
 {
     computeFlux(inviscidFlowField,i,j);
 
-	FLOAT dtdx = 0.01;
-	FLOAT dtdy = 0.01;
+	FLOAT dtdx = _parameters.timestep.dt;
+	FLOAT dtdy = _parameters.timestep.dt;
 	if (i == 1 || j == 1)
 	{
 

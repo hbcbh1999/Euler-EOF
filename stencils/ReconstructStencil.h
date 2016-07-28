@@ -4,7 +4,7 @@
 #include "../Stencil.h"
 #include "../Parameters.h"
 #include "../EulerSolver/InviscidFlowField.h"
-#include <array>
+#include <array> 
 // An explicit method
 class ReconstructStencil : public FieldStencil<InviscidFlowField>, public BoundaryStencil<InviscidFlowField> {
 
@@ -15,6 +15,8 @@ class ReconstructStencil : public FieldStencil<InviscidFlowField>, public Bounda
     void reconstruct(InviscidFlowField & inviscidFlowField, int i, int j, int k, int edge);
     void reconstructBoundary(InviscidFlowField & inviscidFlowField, int i, int j);
     void reconstructBoundary(InviscidFlowField & inviscidFlowField, int i, int j, int k);
+
+    FLOAT MinMaxMod(FLOAT a, FLOAT b, int k);
 
 public:
 

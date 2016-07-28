@@ -46,8 +46,7 @@ void HalfTimeStepUpdateStencil::halfTimeStepUpdate( InviscidFlowField & inviscid
 {
     std::array<FLOAT, 4> U_halfTime, F, G;
 
-    FLOAT dt = 0.01;
-
+    FLOAT dt = _parameters.timestep.dt;
     for (int n = 0;n < 4; n++)
     {
         U_halfTime[n] = U[n] + 0.5 * dt * (F_l[n] - F_r[n]) + 0.5 * dt * (G_b[n] - G_t[n]);

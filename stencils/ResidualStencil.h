@@ -23,8 +23,9 @@ public:
     void apply ( InviscidFlowField & inviscidFlowField, int i, int j ); 
     void apply ( InviscidFlowField & inviscidFlowField, int i, int j, int k );
 
-    FLOAT getMaxResidual();
     void reset();
+
+    FLOAT getMaxResidual();
  
 };
 #endif //_RESIDUAL_STENCIL_H_

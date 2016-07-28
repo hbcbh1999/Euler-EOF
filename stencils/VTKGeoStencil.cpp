@@ -95,3 +95,12 @@ void VTKGeoStencil::write ( InviscidFlowField &  inviscidFlowField, int timeStep
 	}
 		vtkFile.close();
 }
+
+void VTKGeoStencil::clear ()
+{
+	cellRefNum = 0;
+	pointData.str("");
+	cellData.str("");
+	cellType.str("");
+	pressureValue.str("");
+}

@@ -12,6 +12,7 @@ class InletBoundaryConditionStencil: public BoundaryStencil<InviscidFlowField>
 private:
     FLOAT FreeStreamVelocity[3];
     FLOAT HeatCapacityRatio;
+    int sizeX, sizeY;
 public:
 	// Constructor
     InletBoundaryConditionStencil (const Parameters & parameters);

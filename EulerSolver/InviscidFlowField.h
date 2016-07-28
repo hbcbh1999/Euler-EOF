@@ -16,6 +16,7 @@ class InviscidFlowField : public FlowField {
         VectorField _pointCoordinate;
 
         ScalarField _energy;
+        ScalarField _residual;
 
         // @Mou: For debugging purpose right now all the intermedient variables are stored.
         FluxField _U;
@@ -56,6 +57,7 @@ class InviscidFlowField : public FlowField {
         ScalarField & getJ ();
         VectorField & getPointCoordinate();
         ScalarField & getEnergy();
+        ScalarField & getResidual();
 
         // // Flux
         FluxField & getU();

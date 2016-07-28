@@ -16,6 +16,7 @@ void DebugStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j )
 
 	XValue[i][j] = inviscidFlowField.getPointCoordinate().getVector(i,j)[0];
 	YValue[i][j] = inviscidFlowField.getPointCoordinate().getVector(i,j)[1];
+	ResidualValue[i][j] =  inviscidFlowField.getResidual().getScalar(i,j);
 
 	PressureValue[i][j] =  inviscidFlowField.getPressure().getScalar(i,j);
 	DensityValue[i][j] = inviscidFlowField.getDensity().getScalar(i,j);
@@ -107,6 +108,7 @@ void DebugStencil::applyLeftWall ( InviscidFlowField & inviscidFlowField, int i,
 	DensityValue[i][j] = inviscidFlowField.getDensity().getScalar(i,j);
 	uValue[i][j] = inviscidFlowField.getVelocity().getVector(i,j)[0];
 	vValue[i][j] = inviscidFlowField.getVelocity().getVector(i,j)[1];
+	ResidualValue[i][j] =  inviscidFlowField.getResidual().getScalar(i,j);
 
 	XValue[i][j] = inviscidFlowField.getPointCoordinate().getVector(i,j)[0];
 	YValue[i][j] = inviscidFlowField.getPointCoordinate().getVector(i,j)[1];
@@ -197,6 +199,7 @@ void DebugStencil::applyRightWall ( InviscidFlowField & inviscidFlowField, int i
 	DensityValue[i][j] = inviscidFlowField.getDensity().getScalar(i,j);
 	uValue[i][j] = inviscidFlowField.getVelocity().getVector(i,j)[0];
 	vValue[i][j] = inviscidFlowField.getVelocity().getVector(i,j)[1];
+	ResidualValue[i][j] =  inviscidFlowField.getResidual().getScalar(i,j);
 
 	XValue[i][j] = inviscidFlowField.getPointCoordinate().getVector(i,j)[0];
 	YValue[i][j] = inviscidFlowField.getPointCoordinate().getVector(i,j)[1];
@@ -287,6 +290,7 @@ void DebugStencil::applyTopWall ( InviscidFlowField & inviscidFlowField, int i, 
 	DensityValue[i][j] = inviscidFlowField.getDensity().getScalar(i,j);
 	uValue[i][j] = inviscidFlowField.getVelocity().getVector(i,j)[0];
 	vValue[i][j] = inviscidFlowField.getVelocity().getVector(i,j)[1];
+	ResidualValue[i][j] =  inviscidFlowField.getResidual().getScalar(i,j);
 
 
 	XValue[i][j] = inviscidFlowField.getPointCoordinate().getVector(i,j)[0];
@@ -374,6 +378,7 @@ void DebugStencil::applyBottomWall ( InviscidFlowField & inviscidFlowField, int 
 	DensityValue[i][j] = inviscidFlowField.getDensity().getScalar(i,j);
 	uValue[i][j] = inviscidFlowField.getVelocity().getVector(i,j)[0];
 	vValue[i][j] = inviscidFlowField.getVelocity().getVector(i,j)[1];
+	ResidualValue[i][j] =  inviscidFlowField.getResidual().getScalar(i,j);
 
 
 	XValue[i][j] = inviscidFlowField.getPointCoordinate().getVector(i,j)[0];
@@ -481,7 +486,7 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	std::ofstream vtkFile;
 	std::stringstream vtkFileName;
 	std::string fileName;
-	std::stringstream PressureValueOutput, uValueOutput, vValueOutput, DensityValueOutput, U0Output,U1Output,U2Output,U3Output, JValueOutput, xi0ValueOutput,xi1ValueOutput,eta0ValueOutput,eta1ValueOutput,XValueOutput, YValueOutput, F0Output, F1Output, F2Output, F3Output, G0Output, G1Output, G2Output, G3Output, Fmid0Output, Fmid1Output, Fmid2Output, Fmid3Output, Gmid0Output, Gmid1Output, Gmid2Output, Gmid3Output, Ul0Output, Ul1Output, Ul2Output, Ul3Output, Ur0Output, Ur1Output, Ur2Output, Ur3Output, Ub0Output, Ub1Output, Ub2Output, Ub3Output, Ut0Output, Ut1Output, Ut2Output, Ut3Output, Fl0Output, Fl1Output, Fl2Output, Fl3Output, Fr0Output, Fr1Output, Fr2Output, Fr3Output, Gb0Output, Gb1Output, Gb2Output, Gb3Output, Gt0Output, Gt1Output, Gt2Output, Gt3Output;
+	std::stringstream PressureValueOutput,ResidualValueOutput, uValueOutput, vValueOutput, DensityValueOutput, U0Output,U1Output,U2Output,U3Output, JValueOutput, xi0ValueOutput,xi1ValueOutput,eta0ValueOutput,eta1ValueOutput,XValueOutput, YValueOutput, F0Output, F1Output, F2Output, F3Output, G0Output, G1Output, G2Output, G3Output, Fmid0Output, Fmid1Output, Fmid2Output, Fmid3Output, Gmid0Output, Gmid1Output, Gmid2Output, Gmid3Output, Ul0Output, Ul1Output, Ul2Output, Ul3Output, Ur0Output, Ur1Output, Ur2Output, Ur3Output, Ub0Output, Ub1Output, Ub2Output, Ub3Output, Ut0Output, Ut1Output, Ut2Output, Ut3Output, Fl0Output, Fl1Output, Fl2Output, Fl3Output, Fr0Output, Fr1Output, Fr2Output, Fr3Output, Gb0Output, Gb1Output, Gb2Output, Gb3Output, Gt0Output, Gt1Output, Gt2Output, Gt3Output;
 
 	for (int j = 62; j>= 0; --j)
 	{
@@ -497,6 +502,8 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 			uValueOutput << uValue[i][j] <<",";
 			vValueOutput << vValue[i][j] << ",";
 			PressureValueOutput << PressureValue[i][j] << ",";
+
+			ResidualValueOutput << ResidualValue[i][j] << ",";
 
 			Ul0Output << Ul0[i][j]<<",";
 			Ul1Output << Ul1[i][j]<<",";
@@ -584,6 +591,8 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 		uValueOutput << "\n";
 		vValueOutput << "\n";
 		PressureValueOutput << "\n";
+		ResidualValueOutput << "\n";	
+
 
 		U0Output << "\n";
 		U1Output << "\n";
@@ -710,19 +719,23 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << eta1ValueOutput.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
 
-	// vtkFile << "Density_Value" << "\n";
-	// vtkFile << DensityValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
+	vtkFile << "Density_Value" << "\n";
+	vtkFile << DensityValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
 
-	// vtkFile << "u_Value" << "\n";
-	// vtkFile << uValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
-	// vtkFile << "v_Value" << "\n";
-	// vtkFile << vValueOutput.str();
-	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
+	vtkFile << "u_Value" << "\n";
+	vtkFile << uValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	vtkFile << "v_Value" << "\n";
+	vtkFile << vValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n"; 
 
-	// vtkFile << "pressure_Value" << "\n";
-	// vtkFile << PressureValueOutput.str();
+	vtkFile << "pressure_Value" << "\n";
+	vtkFile << PressureValueOutput.str();
+	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+
+	// vtkFile << "residual_Value" << "\n";
+	// vtkFile << ResidualValueOutput.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 	
 
@@ -742,9 +755,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << U3Output.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	vtkFile << "Ul0_Value" << "\n";
-	vtkFile << Ul0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Ul0_Value" << "\n";
+	// vtkFile << Ul0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "Ul1_Value" << "\n";
 	// vtkFile << Ul1Output.str();
@@ -758,9 +771,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << Ul3Output.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	vtkFile << "Ur0_Value" << "\n";
-	vtkFile << Ur0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Ur0_Value" << "\n";
+	// vtkFile << Ur0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "Ur1_Value" << "\n";
 	// vtkFile << Ur1Output.str();
@@ -774,9 +787,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << Ur3Output.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	vtkFile << "Ub0_Value" << "\n";
-	vtkFile << Ub0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Ub0_Value" << "\n";
+	// vtkFile << Ub0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "Ub1_Value" << "\n";
 	// vtkFile << Ub1Output.str();
@@ -790,9 +803,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << Ub3Output.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	vtkFile << "Ut0_Value" << "\n";
-	vtkFile << Ut0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Ut0_Value" << "\n";
+	// vtkFile << Ut0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "Ut1_Value" << "\n";
 	// vtkFile << Ut1Output.str();
@@ -806,9 +819,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << Ut3Output.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";
 
-	vtkFile << "Fl_Value" << "\n";
-	vtkFile << Fl0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Fl_Value" << "\n";
+	// vtkFile << Fl0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "Fl_Value" << "\n";
 	// vtkFile << Fl1Output.str();
@@ -822,9 +835,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << Fl3Output.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	vtkFile << "Fr_Value" << "\n";
-	vtkFile << Fr0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Fr_Value" << "\n";
+	// vtkFile << Fr0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "Fr_Value" << "\n";
 	// vtkFile << Fr1Output.str();
@@ -838,9 +851,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << Fr3Output.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	vtkFile << "Gb_Value" << "\n";
-	vtkFile << Gb0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Gb_Value" << "\n";
+	// vtkFile << Gb0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "Gb_Value" << "\n";
 	// vtkFile << Gb1Output.str();
@@ -854,9 +867,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << Gb3Output.str();
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
-	vtkFile << "Gt_Value" << "\n";
-	vtkFile << Gt0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Gt_Value" << "\n";
+	// vtkFile << Gt0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "Gt_Value" << "\n";
 	// vtkFile << Gt1Output.str();
@@ -872,9 +885,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 
 	
 
-	vtkFile << "F0_Value" << "\n";
-	vtkFile << F0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "F0_Value" << "\n";
+	// vtkFile << F0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	// vtkFile << "F1_Value" << "\n";
 	// vtkFile << F1Output.str();
@@ -890,11 +903,11 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 
 	
 
-	vtkFile << "G0_Value" << "\n";
+	// vtkFile << "G0_Value" << "\n";
 
-	vtkFile << G0Output.str();
+	// vtkFile << G0Output.str();
 
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	
 
@@ -921,9 +934,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	
-	vtkFile << "Fmid0_Value" << "\n";
-	vtkFile << Fmid0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Fmid0_Value" << "\n";
+	// vtkFile << Fmid0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 
 	// vtkFile << "Fmid1_Value" << "\n";
@@ -950,9 +963,9 @@ void DebugStencil::write (InviscidFlowField & inviscidFlowField, int timeStep)
 
 	
 
-	vtkFile << "Gmid0_Value" << "\n";
-	vtkFile << Gmid0Output.str();
-	vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
+	// vtkFile << "Gmid0_Value" << "\n";
+	// vtkFile << Gmid0Output.str();
+	// vtkFile << "\n" << "\n"<< "\n"<< "\n"<< "\n"<< "\n"<< "\n";  
 
 	
 

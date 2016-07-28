@@ -14,6 +14,8 @@ InviscidFlowField::InviscidFlowField(const Parameters & parameters):
                       VectorField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
     _energy(parameters.geometry.dim==2?ScalarField(getCellsX() + 3, getCellsY() + 3):
                       ScalarField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
+    _residual(parameters.geometry.dim==2?ScalarField(getCellsX() + 3, getCellsY() + 3):
+                      ScalarField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
 
     _U(parameters.geometry.dim==2?FluxField(getCellsX() + 3, getCellsY() + 3):
                       FluxField(getCellsX() + 3, getCellsY() + 3, getCellsZ() + 3)),
@@ -88,6 +90,10 @@ InviscidFlowField::InviscidFlowField(const Parameters & parameters):
   ScalarField & InviscidFlowField::getEnergy(){
     return _energy;
   }
+  ScalarField & InviscidFlowField::getResidual(){
+    return _residual;
+  }
+
 
   FluxField & InviscidFlowField::getU()
   {

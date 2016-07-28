@@ -11,11 +11,14 @@ void RecoverStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j
 		Uhat[n] = inviscidFlowField.getUhat().getFlux(i,j)[n];
 		U[n] = Uhat[n]/J;
 	}
-	
+
+	inviscidFlowField.getResidual().getScalar(i,j) = fabs(U[0] - inviscidFlowField.getDensity().getScalar(i,j) );
 	inviscidFlowField.getDensity().getScalar(i,j) = U[0];
 	inviscidFlowField.getVelocity().getVector(i,j)[0] = U[1]/U[0];
 	inviscidFlowField.getVelocity().getVector(i,j)[1] = U[2]/U[0];
 	inviscidFlowField.getPressure().getScalar(i,j) = (_parameters.flow.HeatCapacityRatio-1) *( U[3] - 0.5 * U[0] * ( pow(U[1]/U[0],2) + pow(U[2]/U[0],2) ) ); 
+
+
 }
 
 void RecoverStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j, int k)

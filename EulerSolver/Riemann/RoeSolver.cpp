@@ -68,35 +68,66 @@ std::array<FLOAT,4> RoeSolver(std::array<FLOAT, 4> U_L, std::array<FLOAT, 4> U_R
 	lambda[3] = u_m + a_m;
 
 	// Entropy fix
-	FLOAT rho_sL, u_s, v_s, p_s, a_sL, rho_sR, a_sR;
 
-	rho_sL = rho_L + alpha[0];
-	u_s = (rho_L * u_L + alpha[0] * (u_m - a_m))/(rho_L + alpha[0]);
-	v_s = (rho_L * v_L + alpha[0] * v_m)/(rho_L + alpha[0]);
-	p_s = (gamma - 1) * (E_L + alpha[0] * (H_m - u_m * a_m) - 0.5 * rho_sL * (pow(u_s, 2)+pow(v_s,2)));
-	a_sL = sqrt(gamma * p_s/rho_sL);
+	double efix = 0.9;
+	if (std::fabs(lambda[0])<efix)
+	{
+		lambda[0] = 0.5 * (efix+pow(lambda[0],2)/efix);
+	}
+	// if (std::fabs(lambda[1])<efix)
+	// {
+	// 	lambda[1] = 0.5 * (efix+pow(lambda[1],2)/efix);
+	// }
+	// if (std::fabs(lambda[2])<efix)
+	// {
+	// 	lambda[2] = 0.5 * (efix+pow(lambda[2],2)/efix);
+	// }
+	if (std::fabs(lambda[3])<efix)
+	{
+		lambda[3] = 0.5 * (efix+pow(lambda[3],2)/efix);
+	}
 
-	FLOAT lambda0_L = u_L - a_L;
-	FLOAT lambda0_R = u_s - a_sL;
+	// FLOAT rho_sL, u_s, v_s, p_s, a_sL, rho_sR, a_sR;
+	// FLOAT p_bar,a_bar,u_bar,rho_bar;
+	// // rho_sL = rho_L + alpha[0];
+	// // u_s = (rho_L * u_L + alpha[0] * (u_m - a_m))/(rho_L + alpha[0]);
+	// // v_s = (rho_L * v_L + alpha[0] * v_m)/(rho_L + alpha[0]);
+	// // p_s = (gamma - 1) * (E_L + alpha[0] * (H_m - u_m * a_m) - 0.5 * rho_sL * (pow(u_s, 2)+pow(v_s,2)));
+	// // p_bar = 0.5 * (p_L+p_R);
+	// // a_bar = 0.5 * (a_L + a_R);
+	// // rho_bar = 0.5 * (u_L + u_R);
+	// // u_bar = 0.5 * (u_L + u_R);
+
+	// // p_s = p_bar + 0.5 * (u_L - u_R)/(rho_bar*a_bar);
+	// // u_s = u_bar + 0.5 * (p_L - p_R)/(rho_bar*a_bar);
+	// // rho_sL = rho_L + (u_L - u_s)*rho_bar/a_bar;
+	// // rho_sR = rho_R + (u_s - u_R)*rho_bar/a_bar;
+
+	// // p_s = std::max(0.0,p_s);
+
+	// a_sL = sqrt(gamma * p_s/rho_sL);
+
+	// FLOAT lambda0_L = u_L - a_L;
+	// FLOAT lambda0_R = u_s - a_sL;
 	
-	if (lambda0_L < 0 && lambda0_R > 0)
-	{
-		lambda[0] = lambda0_L * ((lambda0_R - lambda[0])/(lambda0_R - lambda0_L));
-	}
+	// if (lambda0_L < 0 && lambda0_R > 0)
+	// {
+	// 	lambda[0] = lambda0_L * ((lambda0_R - lambda[0])/(lambda0_R - lambda0_L));
+	// }
 
-	rho_sR = rho_R - alpha[3];
-	u_s = (rho_R * u_R - alpha[3] * (u_m + a_m))/(rho_R - alpha[3]);
-	v_s = (rho_R * v_R - alpha[3] * v_m)/(rho_R - alpha[3]);
-	p_s = (gamma - 1) * (E_R - alpha[3] * (H_m + u_m * a_m) - 0.5 * rho_sR * (pow(u_s, 2)+pow(v_s,2)));
-	a_sR = sqrt(gamma * p_s/rho_sR);
+	// // rho_sR = rho_R - alpha[3];
+	// // u_s = (rho_R * u_R - alpha[3] * (u_m + a_m))/(rho_R - alpha[3]);
+	// // v_s = (rho_R * v_R - alpha[3] * v_m)/(rho_R - alpha[3]);
+	// // p_s = (gamma - 1) * (E_R - alpha[3] * (H_m + u_m * a_m) - 0.5 * rho_sR * (pow(u_s, 2)+pow(v_s,2)));
+	// a_sR = sqrt(gamma * p_s/rho_sR);
 
-	FLOAT lambda3_L = u_s + a_sR;
-	FLOAT lambda3_R = u_R + a_R;
+	// FLOAT lambda3_L = u_s + a_sR;
+	// FLOAT lambda3_R = u_R + a_R;
 
-	if (lambda3_L < 0 && lambda3_R > 0)
-	{
-		lambda[3] = lambda3_R * ((lambda[3] - lambda3_L)/(lambda3_R - lambda3_L));
-	}
+	// if (lambda3_L < 0 && lambda3_R > 0)
+	// {
+	// 	lambda[3] = lambda3_R * ((lambda[3] - lambda3_L)/(lambda3_R - lambda3_L));
+	// }
 
 	// Evaluate eigenarray
 	FLOAT K[4][4] = 
@@ -114,7 +145,7 @@ std::array<FLOAT,4> RoeSolver(std::array<FLOAT, 4> U_L, std::array<FLOAT, 4> U_R
 		SumAlphaLambdaK = 0.0;
 		for (int i=0; i<4; i++)
 		{
-			SumAlphaLambdaK = SumAlphaLambdaK + alpha[i]* std::abs(lambda[i])*K[i][j];
+			SumAlphaLambdaK = SumAlphaLambdaK + alpha[i]* std::fabs(lambda[i])*K[i][j];
 		}
 		FLOAT result = 0.5*(F_L[j]+F_R[j]) - 0.5 * SumAlphaLambdaK;
 		F_interface[j] = result;

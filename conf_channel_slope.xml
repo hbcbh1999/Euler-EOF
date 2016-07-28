@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
-    <flow Re="0" Ma="2" HeatCapacityRatio="1.4"/>
+    <flow Re="0" Ma="0.95" HeatCapacityRatio="1.4"/>
     <!-- TODO: MACH -->
     <simulation finalTime="10.0" >
         <type>inviscid</type>
@@ -38,7 +38,7 @@
             <vector x="0" y="0" z="0" />
         </back>
     </walls>
-    <vtk interval="0.5">channel_result2D</vtk>
+    <vtk interval="40">channel_result2D</vtk>
     <stdOut interval="0.0001" />
     <!-- 
     <block numBlocksX = "3" numBlocksY = "1" numBlocksZ = "1" />

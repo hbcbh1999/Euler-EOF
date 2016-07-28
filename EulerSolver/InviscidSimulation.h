@@ -17,6 +17,7 @@
 // #include "../stencils/GodunovStencil.h"
 #include "../stencils/MUSCLStencil.h"
 #include "../stencils/RecoverStencil.h"
+#include "../stencils/ResidualStencil.h"
 #include "../stencils/VTKGeoStencil.h"
 #include "../stencils/DebugStencil.h"
 #include "../Iterators.h"
@@ -53,7 +54,7 @@ protected:
 
   SMaxStencil _sMaxStencil;
 	FieldIterator<InviscidFlowField> _sMaxIterator;
-	GlobalBoundaryIterator<InviscidFlowField> _sMaxBoundaryIterator;
+	// GlobalBoundaryIterator<InviscidFlowField> _sMaxBoundaryIterator;
 
   // RoeStencil _roeStencil;
   // FieldIterator<InviscidFlowField> _roeIterator;
@@ -66,6 +67,9 @@ protected:
 
   RecoverStencil _recoverStencil;
   FieldIterator<InviscidFlowField> _recoverIterator;
+
+  ResidualStencil _residualStencil;
+  FieldIterator<InviscidFlowField> _residualIterator;
 
   DebugStencil _debugStencil;
   FieldIterator<InviscidFlowField> _debugIterator;
@@ -108,7 +112,7 @@ public:
   _sMaxStencil(parameters),
   _sMaxIterator(_inviscidFlowField,
         parameters,_sMaxStencil),
-  _sMaxBoundaryIterator(_inviscidFlowField, parameters, _sMaxStencil),
+  // _sMaxBoundaryIterator(_inviscidFlowField, parameters, _sMaxStencil),
 
  //  _roeStencil(parameters),
 	// _roeIterator(_inviscidFlowField, parameters,_roeStencil),
@@ -121,6 +125,9 @@ public:
 
   _recoverStencil(parameters),
   _recoverIterator(_inviscidFlowField, parameters, _recoverStencil),
+
+  _residualStencil(parameters),
+  _residualIterator(_inviscidFlowField, parameters, _residualStencil),
 
 // /*********************** Debug*********************** /
   _debugStencil(parameters),
@@ -146,17 +153,16 @@ public:
   {
     _domainTransformIterator.iterate();
     _domainTransformBoundaryIterator.iterate();
+    inviscid_setTimeStep(); 
    // // /*** MUSCL scheme ***/
-    _reconstructIterator.iterate();
     _reconstructBoundaryIterator.iterate();
+    _reconstructIterator.iterate();
     _halfTimeStepUpdateIterator.iterate();
     _musclIterator.iterate();
-
    // // //  // _roeIterator.iterate();
-   // // // // //  // inviscid_setTimeStep();
   	// // // // _godunovIterator.iterate(); 
     _recoverIterator.iterate();
-    _boundaryConditionIterator.iterate();    
+    _boundaryConditionIterator.iterate();
   }
 
   void debugPlot(int timeStep)
@@ -167,8 +173,16 @@ public:
   }
 
   void plotGeoVTK(int timeStep){
+    _vtkGeoStencil.clear();
     _vtkGeoIterator.iterate();
     _vtkGeoStencil.write(_inviscidFlowField,timeStep);
+  }
+
+  FLOAT convergenceCheck()
+  {
+    _residualStencil.reset();
+    _residualIterator.iterate();
+    return _residualStencil.getMaxResidual();
   }
 
   void inviscid_setTimeStep()
@@ -176,17 +190,17 @@ public:
  	// determine maximum velocity
     _sMaxStencil.reset();
     _sMaxIterator.iterate();
-    _sMaxBoundaryIterator.iterate();
+    // _sMaxBoundaryIterator.iterate();
     // Take Cfl number = 0.9
-    if (_parameters.geometry.dim == 3) 
-    {
-      _parameters.timestep.dt = 0.01 / std::max(std::max(_sMaxStencil.getMaxValues()[0],_sMaxStencil.getMaxValues()[1]),_sMaxStencil.getMaxValues()[2]);
-    } 
-    else 
-    {
-      // _parameters.timestep.dt = 0.01 / std::max(_sMaxStencil.getMaxValues()[0],_sMaxStencil.getMaxValues()[1]);
-      _parameters.timestep.dt = 0.001;
-    }
+    // if (_parameters.geometry.dim == 3) 
+    // {
+    //   _parameters.timestep.dt = 0.01 / std::max(std::max(_sMaxStencil.getMaxValues()[0],_sMaxStencil.getMaxValues()[1]),_sMaxStencil.getMaxValues()[2]);
+    // } 
+    // else 
+    // {
+      // _parameters.timestep.dt = 0.01 /_sMaxStencil.getMaxValues();
+     _parameters.timestep.dt = 0.05;
+    // }
   }
 
 };

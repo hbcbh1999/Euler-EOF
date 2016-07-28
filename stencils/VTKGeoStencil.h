@@ -53,6 +53,7 @@ facfa         *
          * @param flowField Flow field to be written
          */
         void write ( InviscidFlowField & inviscidflowField, int timeStep );
+        void clear ();
 
 };
 

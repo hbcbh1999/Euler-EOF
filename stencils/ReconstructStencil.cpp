@@ -1,5 +1,5 @@
 #include "ReconstructStencil.h"
-
+#include <algorithm>   
 ReconstructStencil::ReconstructStencil ( const Parameters & parameters ) : FieldStencil<InviscidFlowField> ( parameters ), BoundaryStencil<InviscidFlowField>(parameters) {
     omega = 0;
     gamma = parameters.flow.HeatCapacityRatio;
@@ -9,10 +9,17 @@ ReconstructStencil::ReconstructStencil ( const Parameters & parameters ) : Field
 
 void ReconstructStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j)
 {
-    reconstruct(inviscidFlowField, i, j, 3);    // Left
-    reconstruct(inviscidFlowField, i, j, 1);    // Right
-    reconstruct(inviscidFlowField, i, j, 0);    // Bottom
-    reconstruct(inviscidFlowField, i, j, 2);    // Top
+    if(i==1||i==(sizeX+2)||j==1||j==(sizeY+2))
+    {
+
+    }
+    else
+    {
+        reconstruct(inviscidFlowField, i, j, 3);    // Left
+        reconstruct(inviscidFlowField, i, j, 1);    // Right
+        reconstruct(inviscidFlowField, i, j, 0);    // Bottom
+        reconstruct(inviscidFlowField, i, j, 2);    // Top
+    }
 }
 
 void ReconstructStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j, int k)
@@ -73,7 +80,7 @@ void ReconstructStencil::applyBackWall ( InviscidFlowField & inviscidFlowField, 
 
 void ReconstructStencil::reconstruct(InviscidFlowField & inviscidFlowField, int i, int j, int edge)
 {
-    std::array<FLOAT, 4>  U_r, U_rp1, U_rm1;    // U_r, U_{r+1}, U_{r-1} 
+    std::array<FLOAT, 4>  U_r, U_rp1, U_rm1, U_b;    // U_r, U_{r+1}, U_{r-1} 
     std::array<FLOAT, 4>  F_r, F_rp1, F_rm1;
     std::array<FLOAT, 4>  G_r, G_rp1, G_rm1;
     std::array<FLOAT, 4> DeltaU, DeltaF, DeltaG;
@@ -90,22 +97,59 @@ void ReconstructStencil::reconstruct(InviscidFlowField & inviscidFlowField, int 
             U_rp1[n] = inviscidFlowField.getUhat().getFlux(i,j+1)[n];
             U_rm1[n] = inviscidFlowField.getUhat().getFlux(i,j-1)[n];
 
-            DeltaU[n] = 0.5 * (1 + omega) * (U_r[n] - U_rm1[n]) + 0.5 * (1 - omega) * (U_rp1[n] - U_r[n]);
-            // DeltaU[n] = 0;
+            // DeltaU[n] = MinMaxMod((U_rp1[n]-U_r[n]),(U_r[n]-U_rm1[n]),0);            
+            if((U_rp1[n] - U_r[n]) > 0)
+            {
+                DeltaU[n] = std::max(0.0,std::min((U_rp1[n] - U_r[n]),(U_r[n] - U_rm1[n])));
+            }
+            else
+            {
+                DeltaU[n] = std::min(0.0,std::max((U_rp1[n] - U_r[n]),(U_r[n] - U_rm1[n])));
+            }
+
+            // DeltaU[n] = 0.5 * (1 + omega) * (U_r[n] - U_rm1[n]) + 0.5 * (1 - omega) * (U_rp1[n] - U_r[n]);
+
+            // if (j == 2 )
+            // {
+            //     // U_b[n] = inviscidFlowField.getUhat().getFlux(i,j-1)[n];
+            //     DeltaU[n] = 0.0 /*(U_r[n] - U_b[n])/0.5*/;
+            // }
+            // else if( j == (sizeY + 1))
+            // {
+            //     // U_b[n] = inviscidFlowField.getUhat().getFlux(i,j+1)[n];
+            //     DeltaU[n] = 0.0/* (U_b[n] - U_r[n])/0.5*/;
+            // }
         }
         else        // left & right
         {
             U_rp1[n] = inviscidFlowField.getUhat().getFlux(i+1,j)[n];
             U_rm1[n] = inviscidFlowField.getUhat().getFlux(i-1,j)[n];
 
-            DeltaU[n] = 0.5 * (1 + omega) * (U_r[n] - U_rm1[n]) + 0.5 * (1 - omega) * (U_rp1[n] - U_r[n]);
+             // DeltaU[n] = MinMaxMod((U_rp1[n]-U_r[n]),(U_r[n]-U_rm1[n]),0);  
+
+            if((U_rp1[n] - U_r[n]) > 0)
+            {
+                DeltaU[n] = std::max(0.0,std::min((U_rp1[n] - U_r[n]),(U_r[n] - U_rm1[n])));
+            }
+            else
+            {
+                DeltaU[n] = std::min(0.0,std::max((U_rp1[n] - U_r[n]),(U_r[n] - U_rm1[n])));
+            }
+
+            // DeltaU[n] = 0.5 * (1 + omega) * (U_r[n] - U_rm1[n]) + 0.5 * (1 - omega) * (U_rp1[n] - U_r[n]);
             // DeltaU[n] = 0;
+            if (i == 2 )
+            {
+                // U_b[n] = inviscidFlowField.getUhat().getFlux(i-1,j)[n];
+                DeltaU[n] = 0.0 /*(U_r[n] - U_b[n])/0.5*/;
+            }
+            else if( i == (sizeX + 1))
+            {
+                // U_b[n] = inviscidFlowField.getUhat().getFlux(i+1,j)[n];
+                DeltaU[n] = 0.0 /*(U_b[n] - U_r[n])/0.5*/;
+            }
         }
-        // No reconstruction at the inner cell close to the boundary to ensure the BC is satisfied
-        if (i == 2 || i == (sizeX + 1) || j == 2 || j == (sizeY + 1) )
-        {
-            DeltaU[n] = 0;
-        }
+
         // Read in the reconstructed U
         if (edge == 0)
         {   
@@ -244,5 +288,46 @@ void ReconstructStencil::reconstructBoundary(InviscidFlowField & inviscidFlowFie
 
 void ReconstructStencil::reconstructBoundary(InviscidFlowField & inviscidFlowField, int i, int j, int k)
 {
+
+}
+
+FLOAT ReconstructStencil::MinMaxMod(FLOAT a, FLOAT b, int k)
+{
+    if (k == 0)        // Min
+    {
+        if (a*b > 0)
+        {
+            if (abs(a) < abs(b))
+            {
+                return a;
+            }
+            else
+            {
+                return b;
+            }
+        }
+        else
+        {
+            return 0.0;
+        }
+    }
+    if(k == 1 )    // Max
+    {
+        if (a*b > 0)
+        {
+            if (abs(a) > abs(b))
+            {
+                return a;
+            }
+            else
+            {
+                return b;
+            }
+        }
+        else
+        {
+            return 0.0;
+        }
+    }  
 
 }

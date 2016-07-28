@@ -37,6 +37,7 @@ stencils/BoundaryConditionStencil.o \
 stencils/SMaxStencil.o \
 stencils/MUSCLStencil.o\
 stencils/RecoverStencil.o\
+stencils/ResidualStencil.o\
 stencils/DebugStencil.o\
 stencils/VTKGeoStencil.o\
 parallelManagers/PetscParallelConfiguration.o \

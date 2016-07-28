@@ -72,23 +72,28 @@ int main (int argc, char *argv[]) {
     simulation->initializeFlowField();
     ((InviscidSimulation*) simulation)->inviscid_initialization();
 
-    ((InviscidSimulation*) simulation)->debugPlot(0);
     FLOAT time = 0.0;
     FLOAT timeStdOut=parameters.stdOut.interval;
-    int timeSteps = 0;
+    int timeSteps = 0;  
     int OutputTimes = 1;
+    FLOAT residual = 1;
 
-
-    while (timeSteps < 40000)
+    while (timeSteps < 4e5 && residual > 1e-5)
     {
         ((InviscidSimulation*) simulation)->inviscid_solveTimeSteps();
-    // // //     time += parameters.timestep.dt;
-        std::cout << "timestep: " << timeSteps << std::endl;
-    // //     // timeStdOut += parameters.stdOut.interval;
+        residual = ((InviscidSimulation*) simulation)->convergenceCheck();
+        if (time > parameters.vtk.interval*OutputTimes)
+        {
+            ((InviscidSimulation*) simulation)->plotGeoVTK(timeSteps);
+            ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
+            OutputTimes++;
+        }
+        time += parameters.timestep.dt;
+        std::cout << "timestep: " << timeSteps << " " << parameters.timestep.dt << " " << residual <<  std::endl;
         timeSteps++;
     // ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
-    }
 
+    }
     ((InviscidSimulation*) simulation)->plotGeoVTK(timeSteps);
     ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
     delete simulation; simulation=NULL;

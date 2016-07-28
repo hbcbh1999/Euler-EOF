@@ -19,6 +19,8 @@ class DebugStencil : public FieldStencil<InviscidFlowField>, public BoundarySten
         FLOAT uValue[213][63];
         FLOAT vValue[213][63];
         FLOAT PressureValue[213][63];
+
+        FLOAT ResidualValue[213][63];
         
         FLOAT JValue[213][63];
         FLOAT xi0Value[213][63];

@@ -6,14 +6,14 @@ void ResidualStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int 
 {
 	if (i>1 && j>1)
 	{
-		FLOAT RhoRelRes = inviscidFlowField.getRhoRelRes().getScalar(i,j);
-		if (RhoRelRes > MaxRhoRelRes)
+		FLOAT residual = inviscidFlowField.getResidual().getScalar(i,j);
+		if (residual > MaxRhoRelRes)
 		{
-			MaxRhoRelRes = RhoRelRes;
+			MaxRhoRelRes = residual;
 		}
+		// std::cout << residual << "\n";
+
 	}
-
-
 }
 
 void ResidualStencil::apply ( InviscidFlowField & inviscidFlowField, int i, int j, int k)

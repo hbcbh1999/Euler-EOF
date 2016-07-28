@@ -34,7 +34,7 @@ GlobalBoundaryFactory::GlobalBoundaryFactory(Parameters & parameters):
         parameters.walls.typeTop    = DIRICHLET;
         parameters.walls.typeFront  = DIRICHLET;
         parameters.walls.typeBack   = DIRICHLET;
-    } else if (scenario == "channel"){
+    } else if (scenario == "channel" || scenario == "shock tube"){
         // To the left, we have the input
         _velocityStencils[0] = _channelInput[0];
         _FGHStencils[0] = _channelInput[1];
