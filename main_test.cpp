@@ -2,7 +2,6 @@
 #include <stdio.h>
 #include <iostream>
 #include "Configuration.h"
-#include "Simulation.h"
 #include "parallelManagers/PetscParallelConfiguration.h"
 #include "MeshsizeFactory.h"
 #include <iomanip>
@@ -27,18 +26,11 @@ int main (int argc, char *argv[]) {
     PetscParallelConfiguration parallelConfiguration(parameters);
     MeshsizeFactory::getInstance().initMeshsize(parameters);
     FlowField *flowField = NULL;
-    Simulation *simulation = NULL;
-
-    // initialise simulation
-
-    if (parameters.simulation.type=="turbulence")
+    InviscidFlowField *inviscidFlowField = NULL;
+    InviscidSimulation *simulation = NULL;
+ 
+    if (parameters.simulation.type=="inviscid")
     {
-      // TODO WS2: initialise turbulent flow field and turbulent simulation object
-      handleError(1,"Turbulence currently not supported yet!");
-    } 
-    else if (parameters.simulation.type=="inviscid")
-    {
-        InviscidFlowField *inviscidFlowField = NULL;
         inviscidFlowField = new InviscidFlowField(parameters);
         flowField = inviscidFlowField;
         if(flowField == NULL)
@@ -47,29 +39,15 @@ int main (int argc, char *argv[]) {
         }
         simulation = new InviscidSimulation(parameters,*inviscidFlowField);
     }
-    else if (parameters.simulation.type=="dns")
-    {
-      if(rank==0)
-      { 
-        std::cout << "Start DNS simulation in " << parameters.geometry.dim << "D" << std::endl; 
-      }
-      flowField = new FlowField(parameters);
-      if(flowField == NULL)
-        { 
-          handleError(1, "flowField==NULL!"); 
-        }
-      simulation = new Simulation(parameters,*flowField);
-    } 
     else 
     {
-      handleError(1, "Unknown simulation type! Currently supported: dns, turbulence");
+      handleError(1, "Unknown simulation type! Currently supported: inviscid");
     }
     // call initialization of simulation (initialize flow field)
     if(simulation == NULL)
     { 
       handleError(1, "simulation==NULL!"); 
     }
-    simulation->initializeFlowField();
     ((InviscidSimulation*) simulation)->inviscid_initialization();
 
     FLOAT time = 0.0;
@@ -98,6 +76,8 @@ int main (int argc, char *argv[]) {
     ((InviscidSimulation*) simulation)->debugPlot(timeSteps);
     delete simulation; simulation=NULL;
     delete flowField;  flowField= NULL;
+    delete inviscidFlowField;  inviscidFlowField= NULL;
+
 
     PetscFinalize();
 

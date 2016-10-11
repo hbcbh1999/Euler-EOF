@@ -1,7 +1,7 @@
 #### The petsc environment can also be fixed in the makefile
 # PETSC_DIR =
 # PETSC_ARCH =
-PETSC_DIR = /opt/petsc/petsc-3.5.4
+PETSC_DIR = /home/moulin/Downloads/petsc-3.5.4
 include ${PETSC_DIR}/conf/variables
 
 # default gnu compiler (currently not used)
@@ -22,9 +22,8 @@ NSMAIN = main_test.o
 OBJ = DataStructures.o Configuration.o 3rdparty/tinyxml2/tinyxml2.o SimpleTimer.o
 
 NSOBJ = FlowField.o LinearSolver.o Meshsize.o\
-stencils/MaxUStencil.o stencils/MovingWallStencils.o stencils/PeriodicBoundaryStencils.o\
-stencils/FGHStencil.o solvers/SORSolver.o solvers/PetscSolver.o \
-stencils/RHSStencil.o stencils/VelocityStencil.o \
+stencils/MaxUStencil.o \
+solvers/SORSolver.o solvers/PetscSolver.o \
 stencils/VTKStencil.o \
 EulerSolver/InviscidFlowField.o \
 stencils/PointCoordinateStencil.o \
@@ -41,9 +40,7 @@ stencils/ResidualStencil.o\
 stencils/DebugStencil.o\
 stencils/VTKGeoStencil.o\
 parallelManagers/PetscParallelConfiguration.o \
-GlobalBoundaryFactory.o\
 EulerSolver/InviscidGlobalBoundaryFactory.o\
-stencils/BFStepInitStencil.o stencils/NeumannBoundaryStencils.o stencils/BFInputStencils.o stencils/ObstacleStencil.o\
 
 all: ns
 

@@ -3,7 +3,7 @@
 
 #include <algorithm>
 #include <float.h>
-#include "../Simulation.h"
+// #include "../Simulation.h"
 #include "../EulerSolver/InviscidFlowField.h"
 #include "../stencils/PointCoordinateStencil.h"
 #include "../stencils/TransformMetricesStencil.h"
@@ -12,9 +12,7 @@
 #include "../stencils/BoundaryConditionStencil.h"
 #include "../stencils/ReconstructStencil.h"
 #include "../stencils/HalfTimeStepUpdateStencil.h"
-#include "../stencils/RoeStencil.h"
 #include "../stencils/SMaxStencil.h"
-// #include "../stencils/GodunovStencil.h"
 #include "../stencils/MUSCLStencil.h"
 #include "../stencils/RecoverStencil.h"
 #include "../stencils/ResidualStencil.h"
@@ -22,9 +20,12 @@
 #include "../stencils/DebugStencil.h"
 #include "../Iterators.h"
 #include "../EulerSolver/InviscidGlobalBoundaryFactory.h"
+#include "Iterators.h"
+#include "Definitions.h"
 
-class InviscidSimulation : public Simulation {
+class InviscidSimulation{
 protected:
+  Parameters &_parameters;
 	InviscidFlowField &_inviscidFlowField;
 
 	PointCoordinateStencil _pointCoordinateStencil;
@@ -56,12 +57,6 @@ protected:
 	FieldIterator<InviscidFlowField> _sMaxIterator;
 	// GlobalBoundaryIterator<InviscidFlowField> _sMaxBoundaryIterator;
 
-  // RoeStencil _roeStencil;
-  // FieldIterator<InviscidFlowField> _roeIterator;
-
-  // GodunovStencil _godunovStencil;
-  // FieldIterator<InviscidFlowField> _godunovIterator;
-
   MUSCLStencil _musclStencil;
   FieldIterator<InviscidFlowField> _musclIterator;
 
@@ -79,9 +74,11 @@ protected:
 	FieldIterator<InviscidFlowField> _vtkGeoIterator;
 
 public:
+
 	InviscidSimulation(Parameters &parameters, InviscidFlowField &inviscidFlowField):
-	Simulation(parameters,inviscidFlowField),
-	_inviscidFlowField(inviscidFlowField),
+
+  _parameters(parameters),
+  _inviscidFlowField(inviscidFlowField),
 
 	_pointCoordinateStencil(parameters),
 	_pointCoordinateIterator(_inviscidFlowField,parameters,_pointCoordinateStencil),
